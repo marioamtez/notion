@@ -2,11 +2,12 @@
 
 import React, { ComponentRef, useEffect, useRef, useState } from "react";
 import { useMediaQuery } from "usehooks-ts";
-import { useMutation } from "convex/react";
+import { useCreateDocument } from "@/hooks/useDocumentMutations";
+import { useSupabaseUser } from "@/hooks/useSupabaseUser";
+import { ADMIN_EMAILS } from "@/lib/adminEmails";
 import { useParams, usePathname, useRouter } from "next/navigation";
 
 import { cn } from "@/lib/utils";
-import { api } from "@/convex/_generated/api";
 import { DocumentList } from "./DocumentList";
 import { Item } from "./Item";
 import { UserItem } from "./UserItem";
@@ -20,6 +21,7 @@ import {
   Search,
   Settings,
   Trash,
+  Users,
 } from "lucide-react";
 import {
   Popover,
@@ -46,11 +48,13 @@ const Navigation = () => {
 
   const search = useSearch();
   const settings = useSettings();
+  const { user } = useSupabaseUser();
+  const isAdmin = !!user?.email && ADMIN_EMAILS.includes(user.email.toLowerCase());
 
   const { focusMode, setFocusMode } = useFocusMode();
   const prevFocusMode = useRef(focusMode);
 
-  const create = useMutation(api.documents.create);
+  const { mutateAsync: create } = useCreateDocument();
 
   const isResizingRef = useRef(false);
   const sidebarRef = useRef<ComponentRef<"aside">>(null);
@@ -204,8 +208,8 @@ const Navigation = () => {
   };
 
   const handleCreate = () => {
-    const promise = create({ title: "Untitled" }).then((documentId) =>
-      router.push(`/documents/${documentId}`),
+    const promise = create({ title: "Untitled" }).then((doc) =>
+      router.push(`/documents/${doc.id}`),
     );
 
     toast.promise(promise, {
@@ -247,6 +251,13 @@ const Navigation = () => {
             shortcut="Ctrl + K"
           />
           <Item label="Settings" icon={Settings} onClick={settings.onOpen} />
+          {isAdmin && (
+            <Item
+              label="Usuarios"
+              icon={Users}
+              onClick={() => router.push("/admin/users")}
+            />
+          )}
           <Item onClick={handleCreate} label="New page" icon={PlusCircle} />
         </div>
         <div className="mt-4">

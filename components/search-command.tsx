@@ -2,9 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { File } from "lucide-react";
-import { useQuery } from "convex/react";
 import { useRouter } from "next/navigation";
-import { useUser } from "@clerk/nextjs";
+import { useSupabaseUser } from "@/hooks/useSupabaseUser";
 
 import {
   Command,
@@ -16,13 +15,14 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import { useSearch } from "@/hooks/useSearch";
-import { api } from "@/convex/_generated/api";
+import { useSearchDocuments } from "@/hooks/useDocumentQueries";
 import { DialogTitle } from "./ui/dialog";
 
 export const SearchCommand = () => {
-  const { user } = useUser();
+  const { user } = useSupabaseUser();
+  const fullName = user?.user_metadata?.full_name ?? user?.user_metadata?.name;
   const router = useRouter();
-  const documents = useQuery(api.documents.getSearch);
+  const { data: documents } = useSearchDocuments();
   const [isMounted, setIsMounted] = useState(false);
 
   const toggle = useSearch((store) => store.toggle);
@@ -66,16 +66,16 @@ export const SearchCommand = () => {
           return 0;
         }}
       >
-        <CommandInput placeholder={`Search ${user?.fullName}'s Zotion..`} />
+        <CommandInput placeholder={`Search ${fullName}'s Zotion..`} />
         <CommandList>
           <CommandEmpty>No results found.</CommandEmpty>
           <CommandGroup heading="Documents" className="pb-1">
             {documents?.map((document) => (
               <CommandItem
-                key={document._id}
-                value={`${document.title}|${document._id}`}
+                key={document.id}
+                value={`${document.title}|${document.id}`}
                 title={document.title}
-                onSelect={() => onSelect(document._id)}
+                onSelect={() => onSelect(document.id)}
               >
                 {document.icon ? (
                   <p className="mr-2 text-[1.125rem] leading-0">

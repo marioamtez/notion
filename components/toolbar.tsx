@@ -2,9 +2,8 @@
 
 import { ComponentRef, ElementRef, useEffect, useRef, useState } from "react";
 
-import { useMutation } from "convex/react";
-import { api } from "@/convex/_generated/api";
-import { Doc } from "@/convex/_generated/dataModel";
+import { useUpdateDocument, useRemoveIcon } from "@/hooks/useDocumentMutations";
+import type { Document } from "@/types/document";
 
 import { useCoverImage } from "@/hooks/useCoverImage";
 
@@ -17,7 +16,7 @@ import { EditorFont, useEditorFont } from "@/hooks/useEditorFont";
 import { fontFamilies } from "@/lib/editorFont";
 
 interface ToolbarProps {
-  initialData: Doc<"documents">;
+  initialData: Document;
   editorFont?: string;
   preview?: boolean;
 }
@@ -28,8 +27,8 @@ export const Toolbar = ({ initialData, preview, editorFont }: ToolbarProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [value, setValue] = useState(initialData.title);
 
-  const update = useMutation(api.documents.update);
-  const removeIcon = useMutation(api.documents.removeIcon);
+  const { mutateAsync: update } = useUpdateDocument();
+  const { mutateAsync: removeIcon } = useRemoveIcon();
 
   const coverImage = useCoverImage();
 
@@ -57,13 +56,13 @@ export const Toolbar = ({ initialData, preview, editorFont }: ToolbarProps) => {
 
     const timer = setTimeout(() => {
       update({
-        id: initialData._id,
+        id: initialData.id,
         title: value || "Untitled",
       });
     }, 400);
 
     return () => clearTimeout(timer);
-  }, [value, initialData._id, initialData.title, update]);
+  }, [value, initialData.id, initialData.title, update]);
 
   const onInput = (value: string) => {
     setValue(value);
@@ -73,7 +72,7 @@ export const Toolbar = ({ initialData, preview, editorFont }: ToolbarProps) => {
     if (event.key === "Enter") {
       event.preventDefault();
       update({
-        id: initialData._id,
+        id: initialData.id,
         title: value || "Untitled",
       });
       setTimeout(() => {
@@ -84,14 +83,14 @@ export const Toolbar = ({ initialData, preview, editorFont }: ToolbarProps) => {
 
   const onIconSelect = (icon: string) => {
     update({
-      id: initialData._id,
+      id: initialData.id,
       icon,
     });
   };
 
   const onRemoveIcon = () => {
     removeIcon({
-      id: initialData._id,
+      id: initialData.id,
     });
   };
 
@@ -101,8 +100,8 @@ export const Toolbar = ({ initialData, preview, editorFont }: ToolbarProps) => {
         <div
           className={cn(
             "group/icon relative z-10 flex w-max items-center gap-x-2",
-            !initialData.coverImage && "pt-6",
-            initialData.coverImage && "-mt-8",
+            !initialData.cover_image && "pt-6",
+            initialData.cover_image && "-mt-8",
           )}
         >
           <IconPicker onChange={onIconSelect}>
@@ -124,8 +123,8 @@ export const Toolbar = ({ initialData, preview, editorFont }: ToolbarProps) => {
         <p
           className={cn(
             "text-6xl",
-            !initialData.coverImage && "pt-6",
-            initialData.coverImage && "-mt-8",
+            !initialData.cover_image && "pt-6",
+            initialData.cover_image && "-mt-8",
           )}
         >
           {initialData.icon}
@@ -144,7 +143,7 @@ export const Toolbar = ({ initialData, preview, editorFont }: ToolbarProps) => {
             </Button>
           </IconPicker>
         )}
-        {!initialData.coverImage && !preview && (
+        {!initialData.cover_image && !preview && (
           <Button
             onClick={coverImage.onOpen}
             className="text-muted-foreground text-xs"
@@ -172,7 +171,7 @@ export const Toolbar = ({ initialData, preview, editorFont }: ToolbarProps) => {
           "w-full resize-none bg-transparent font-bold wrap-break-word outline-hidden",
           "text-[#3F3F3F] placeholder:text-gray-300 disabled:cursor-default dark:text-[#CFCFCF]",
           !isEditing && "cursor-pointer",
-          initialData.smallText ? "text-4xl" : "text-5xl",
+          initialData.small_text ? "text-4xl" : "text-5xl",
         )}
       />
     </div>

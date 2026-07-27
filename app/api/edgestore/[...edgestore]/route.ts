@@ -1,24 +1,29 @@
 import { initEdgeStore } from "@edgestore/server";
 import { createEdgeStoreNextHandler } from "@edgestore/server/adapters/next/app";
-import { auth, currentUser } from "@clerk/nextjs/server";
+import { createClient } from "@/lib/supabase/server";
 
 const es = initEdgeStore.create();
+
+const requireUser = async () => {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    throw new Error("Unauthorized");
+  }
+};
 
 const edgeStoreRouter = es.router({
   publicFiles: es
     .fileBucket()
     .beforeUpload(async () => {
-      const { userId } = await auth();
-      if (!userId) {
-        throw new Error("Unauthorized");
-      }
+      await requireUser();
       return true;
     })
     .beforeDelete(async () => {
-      const { userId } = await auth();
-      if (!userId) {
-        throw new Error("Unauthorized");
-      }
+      await requireUser();
       return true;
     }),
 });

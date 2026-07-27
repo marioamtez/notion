@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useQuery, useMutation } from "convex/react";
 import { useParams, useRouter } from "next/navigation";
 
 import {
@@ -26,8 +25,12 @@ import {
 } from "@dnd-kit/modifiers";
 import { CSS } from "@dnd-kit/utilities";
 
-import { api } from "@/convex/_generated/api";
-import { Doc, Id } from "@/convex/_generated/dataModel";
+import { useSidebar } from "@/hooks/useDocumentQueries";
+import {
+  useReorderDocuments,
+  useToggleFavoriteDocument,
+} from "@/hooks/useDocumentMutations";
+import type { Document } from "@/types/document";
 
 import { Item } from "./Item";
 
@@ -35,20 +38,20 @@ import { FileIcon } from "lucide-react";
 import { toast } from "sonner";
 
 interface SortableItemProps {
-  document: Doc<"documents">;
+  document: Document;
   level: number;
   onExpand: (id: string) => void;
   expanded: boolean;
   onRedirect: (id: string) => void;
   activeId?: string | string[];
   isFavorite?: boolean;
-  onFavorite?: (id: Id<"documents">) => void;
+  onFavorite?: (id: string) => void;
   navDrawer?: boolean;
 }
 interface DocumentListProps {
-  parentDocumentId?: Id<"documents">;
+  parentDocumentId?: string;
   level?: number;
-  data?: Doc<"documents">[];
+  data?: Document[];
   navDrawer?: boolean;
 }
 
@@ -69,7 +72,7 @@ const SortableItem = ({
     transform,
     transition,
     isDragging,
-  } = useSortable({ id: document._id });
+  } = useSortable({ id: document.id });
 
   const style = {
     transform: CSS.Transform.toString(
@@ -84,22 +87,22 @@ const SortableItem = ({
   return (
     <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
       <Item
-        id={document._id}
-        onClick={() => onRedirect(document._id)}
+        id={document.id}
+        onClick={() => onRedirect(document.id)}
         label={document.title}
         icon={FileIcon}
-        documentIcon={document.icon}
-        active={activeId === document._id}
+        documentIcon={document.icon ?? undefined}
+        active={activeId === document.id}
         level={level}
-        onExpand={() => onExpand(document._id)}
+        onExpand={() => onExpand(document.id)}
         expanded={expanded}
-        isFavorite={document.isFavorite}
-        onFavorite={() => onFavorite?.(document._id)}
+        isFavorite={document.is_favorite}
+        onFavorite={() => onFavorite?.(document.id)}
         navDrawer={navDrawer}
       />
       {expanded && (
         <DocumentList
-          parentDocumentId={document._id}
+          parentDocumentId={document.id}
           level={level + 1}
           navDrawer={navDrawer}
         />
@@ -116,18 +119,14 @@ export const DocumentList = ({
   const params = useParams();
   const router = useRouter();
 
-  const reorder = useMutation(api.documents.reorder);
-  const toggleFavorite = useMutation(api.documents.toggleFavorite);
+  const { mutateAsync: reorder } = useReorderDocuments();
+  const { mutateAsync: toggleFavorite } = useToggleFavoriteDocument();
 
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const [isDragging, setIsDragging] = useState(false);
-  const [orderedDocuments, setOrderedDocuments] = useState<Doc<"documents">[]>(
-    [],
-  );
+  const [orderedDocuments, setOrderedDocuments] = useState<Document[]>([]);
 
-  const documents = useQuery(api.documents.getSidebar, {
-    parentDocument: parentDocumentId,
-  });
+  const { data: documents } = useSidebar(parentDocumentId);
 
   useEffect(() => {
     if (isDragging) {
@@ -165,22 +164,22 @@ export const DocumentList = ({
 
     if (active.id !== over.id) {
       const oldIndex = orderedDocuments.findIndex(
-        (doc) => doc._id === active.id,
+        (doc) => doc.id === active.id,
       );
-      const newIndex = orderedDocuments.findIndex((doc) => doc._id === over.id);
+      const newIndex = orderedDocuments.findIndex((doc) => doc.id === over.id);
 
       if (oldIndex !== -1 && newIndex !== -1) {
-        setOrderedDocuments((prev) => arrayMove(prev, oldIndex, newIndex));
+        const reordered = arrayMove(orderedDocuments, oldIndex, newIndex);
+        setOrderedDocuments(reordered);
         reorder({
-          id: active.id as Id<"documents">,
-          parentDocument: parentDocumentId,
-          newOrder: newIndex,
+          parentId: parentDocumentId,
+          orderedIds: reordered.map((doc) => doc.id),
         });
       }
     }
   };
 
-  const onToggleFavorite = (id: Id<"documents">) => {
+  const onToggleFavorite = (id: string) => {
     const promise = toggleFavorite({ id });
     toast.promise(promise, {
       loading: "Updating favorites...",
@@ -232,19 +231,19 @@ export const DocumentList = ({
         collisionDetection={closestCorners}
       >
         <SortableContext
-          items={orderedDocuments.map((doc) => doc._id)}
+          items={orderedDocuments.map((doc) => doc.id)}
           strategy={verticalListSortingStrategy}
         >
           {orderedDocuments.map((document) => (
             <SortableItem
-              key={document._id}
+              key={document.id}
               document={document}
               level={level}
               onExpand={onExpand}
-              expanded={expanded[document._id]}
+              expanded={expanded[document.id]}
               onRedirect={onRedirect}
               activeId={params.documentId}
-              isFavorite={document.isFavorite}
+              isFavorite={document.is_favorite}
               onFavorite={onToggleFavorite}
               navDrawer={navDrawer}
             />

@@ -1,6 +1,6 @@
 "use client";
 
-import { Doc } from "@/convex/_generated/dataModel";
+import type { Document } from "@/types/document";
 
 import {
   Popover,
@@ -8,32 +8,31 @@ import {
   PopoverContent,
 } from "@/components/ui/popover";
 import { useOrigin } from "@/hooks/useOrigin";
-import { useMutation } from "convex/react";
-import { api } from "@/convex/_generated/api";
+import { useUpdateDocument } from "@/hooks/useDocumentMutations";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Check, Copy, Divide, Globe } from "lucide-react";
 
 interface PublishProps {
-  initialData: Doc<"documents">;
+  initialData: Document;
 }
 
 export const Publish = ({ initialData }: PublishProps) => {
   const origin = useOrigin();
-  const update = useMutation(api.documents.update);
+  const { mutateAsync: update } = useUpdateDocument();
 
   const [copied, setCopied] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const url = `${origin}/preview/${initialData._id}`;
+  const url = `${origin}/preview/${initialData.id}`;
 
   const onPublish = () => {
     setIsSubmitting(true);
 
     const promise = update({
-      id: initialData._id,
-      isPublished: true,
+      id: initialData.id,
+      is_published: true,
     }).finally(() => setIsSubmitting(false));
 
     toast.promise(promise, {
@@ -47,8 +46,8 @@ export const Publish = ({ initialData }: PublishProps) => {
     setIsSubmitting(true);
 
     const promise = update({
-      id: initialData._id,
-      isPublished: false,
+      id: initialData.id,
+      is_published: false,
     }).finally(() => setIsSubmitting(false));
 
     toast.promise(promise, {
@@ -73,10 +72,10 @@ export const Publish = ({ initialData }: PublishProps) => {
         <Button
           size="sm"
           variant="ghost"
-          aria-label={initialData.isPublished ? "Published" : "Publish"}
-          title={initialData.isPublished ? "Published" : ""}
+          aria-label={initialData.is_published ? "Published" : "Publish"}
+          title={initialData.is_published ? "Published" : ""}
         >
-          {initialData.isPublished ? (
+          {initialData.is_published ? (
             <Globe className="h-4 w-4 text-sky-500" />
           ) : (
             <span className="text-sm">Publish</span>
@@ -84,7 +83,7 @@ export const Publish = ({ initialData }: PublishProps) => {
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-72" align="end" alignOffset={8} forceMount>
-        {initialData.isPublished ? (
+        {initialData.is_published ? (
           <div className="space-y-4">
             <div className="flex items-center gap-x-2">
               <Globe className="h-4 w-4 animate-pulse text-sky-500" />

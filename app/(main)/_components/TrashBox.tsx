@@ -4,10 +4,13 @@ import { ActionTooltip } from "@/components/action-tooltip";
 import { ConfirmModal } from "@/components/modals/ConfirmModal";
 import { Spinner } from "@/components/spinner";
 import { Input } from "@/components/ui/input";
-import { api } from "@/convex/_generated/api";
-import { Id } from "@/convex/_generated/dataModel";
 import { getDocumentUrls, useEdgeStore } from "@/lib/edgestore";
-import { useMutation, useQuery } from "convex/react";
+import { useTrash } from "@/hooks/useDocumentQueries";
+import {
+  useRemoveAllDocuments,
+  useRemoveDocument,
+  useRestoreDocument,
+} from "@/hooks/useDocumentMutations";
 import { Coffee, Search, Trash, Trash2, Undo } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
@@ -19,10 +22,10 @@ export const TrashBox = () => {
 
   const { edgestore } = useEdgeStore();
 
-  const documents = useQuery(api.documents.getTrash);
-  const restore = useMutation(api.documents.restore);
-  const remove = useMutation(api.documents.remove);
-  const removeAll = useMutation(api.documents.removeAll);
+  const { data: documents } = useTrash();
+  const { mutateAsync: restore } = useRestoreDocument();
+  const { mutateAsync: remove } = useRemoveDocument();
+  const { mutateAsync: removeAll } = useRemoveAllDocuments();
 
   const [search, setSearch] = useState("");
 
@@ -36,7 +39,7 @@ export const TrashBox = () => {
 
   const onRestore = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    documentId: Id<"documents">,
+    documentId: string,
   ) => {
     event.stopPropagation();
     const promise = restore({ id: documentId });
@@ -54,8 +57,8 @@ export const TrashBox = () => {
     );
   };
 
-  const onRemove = (documentId: Id<"documents">) => {
-    const document = documents?.find((d) => d._id === documentId);
+  const onRemove = (documentId: string) => {
+    const document = documents?.find((d) => d.id === documentId);
     if (document) {
       deleteFromEdgeStore(getDocumentUrls(document));
     }
@@ -89,7 +92,7 @@ export const TrashBox = () => {
 
     if (params.documentId) {
       const isCurrentDocInTrash = documents?.some(
-        (doc) => doc._id === params.documentId,
+        (doc) => doc.id === params.documentId,
       );
       if (isCurrentDocInTrash) {
         router.push("/documents");
@@ -152,9 +155,9 @@ export const TrashBox = () => {
         <div className="max-h-[50vh] overflow-y-auto">
           {filteredDocuments?.map((document) => (
             <div
-              key={document._id}
+              key={document.id}
               role="button"
-              onClick={() => onClick(document._id)}
+              onClick={() => onClick(document.id)}
               className="text-primary hover:bg-primary/5 flex w-full items-center justify-between rounded-sm text-sm"
               aria-label="Document"
             >
@@ -162,14 +165,14 @@ export const TrashBox = () => {
               <div className="flex items-center">
                 <ActionTooltip label="Restore page">
                   <button
-                    onClick={(e) => onRestore(e, document._id)}
+                    onClick={(e) => onRestore(e, document.id)}
                     className="rounded-sm p-2 hover:bg-neutral-200 dark:hover:bg-neutral-600"
                     aria-label="Restore Document"
                   >
                     <Undo className="text-muted-foreground h-4 w-4" />
                   </button>
                 </ActionTooltip>
-                <ConfirmModal onConfirm={() => onRemove(document._id)}>
+                <ConfirmModal onConfirm={() => onRemove(document.id)}>
                   <div>
                     <ActionTooltip label="Delete forever">
                       <button

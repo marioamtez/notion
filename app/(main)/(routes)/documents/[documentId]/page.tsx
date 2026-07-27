@@ -8,16 +8,15 @@ import { Cover } from "@/components/cover";
 import { Toolbar } from "@/components/toolbar";
 import { Skeleton } from "@/components/ui/skeleton";
 
-import { api } from "@/convex/_generated/api";
-import { Id } from "@/convex/_generated/dataModel";
-import { useMutation, useQuery } from "convex/react";
+import { useDocument } from "@/hooks/useDocumentQueries";
+import { useUpdateDocument } from "@/hooks/useDocumentMutations";
 import { BlockNoteEditor } from "@blocknote/core";
 import { TableOfContents } from "@/components/table-of-contents";
 import { useEditorFont } from "@/hooks/useEditorFont";
 
 interface DocumentIdPageProps {
   params: Promise<{
-    documentId: Id<"documents">;
+    documentId: string;
   }>;
 }
 
@@ -31,13 +30,11 @@ const DocumentIdPage = ({ params }: DocumentIdPageProps) => {
     [],
   );
 
-  const doc = useQuery(api.documents.getById, {
-    documentId: documentId,
-  });
+  const { data: doc } = useDocument(documentId);
 
   const { editorFont, isFontLoading } = useEditorFont({ enabled: true });
 
-  const update = useMutation(api.documents.update);
+  const { mutateAsync: update } = useUpdateDocument();
 
   useEffect(() => {
     if (!doc) return;
@@ -45,7 +42,7 @@ const DocumentIdPage = ({ params }: DocumentIdPageProps) => {
     const defaultFavicon =
       resolvedTheme === "dark" ? "/logo-dark.svg" : "/logo.svg";
 
-    window.document.title = `${doc.title || "Untitled"} | Zotion`;
+    window.document.title = `${doc.title || "Untitled"} | Mbrand Notion`;
 
     const link = window.document.querySelector(
       "link[rel~='icon']",
@@ -57,25 +54,25 @@ const DocumentIdPage = ({ params }: DocumentIdPageProps) => {
     }
 
     return () => {
-      window.document.title = "Zotion";
+      window.document.title = "Mbrand Notion";
       if (link) link.href = defaultFavicon;
     };
   }, [doc?.title, doc?.icon, resolvedTheme, documentId]);
 
   useEffect(() => {
     if (!doc) return;
-    if (doc.editorFont === editorFont) return;
+    if (doc.editor_font === editorFont) return;
 
     update({
       id: documentId,
-      editorFont,
+      editor_font: editorFont,
     });
   }, [doc, editorFont, documentId, update]);
 
-  const activeFont = doc?.editorFont ?? editorFont;
-  const isFullWidth = doc?.fullWidth ?? true;
-  const isSmallText = doc?.smallText ?? false;
-  const showToc = doc?.showToc ?? true;
+  const activeFont = doc?.editor_font ?? editorFont;
+  const isFullWidth = doc?.full_width ?? true;
+  const isSmallText = doc?.small_text ?? false;
+  const showToc = doc?.show_toc ?? true;
 
   const onChange = (content: string) => {
     update({
@@ -106,7 +103,7 @@ const DocumentIdPage = ({ params }: DocumentIdPageProps) => {
 
   return (
     <div className="pb-35">
-      <Cover url={doc.coverImage} />
+      <Cover url={doc.cover_image ?? undefined} />
       <div
         className={`relative mx-auto md:w-[90%] ${
           !isFullWidth ? "max-w-200" : ""
@@ -115,7 +112,7 @@ const DocumentIdPage = ({ params }: DocumentIdPageProps) => {
         <Toolbar initialData={doc} editorFont={activeFont} />
         <Editor
           onChange={onChange}
-          initialContent={doc.content}
+          initialContent={doc.content ?? undefined}
           smallText={isSmallText}
           onEditorReady={setEditor}
           editorFont={activeFont}

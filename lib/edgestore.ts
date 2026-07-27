@@ -11,8 +11,8 @@ const MEDIA_BLOCK_TYPES = new Set(["image", "video", "audio", "file", "pdf"]);
 export const getDocumentUrls = (document: any): string[] => {
   const urls: string[] = [];
 
-  if (document.coverImage && document.coverImage.startsWith("http")) {
-    urls.push(document.coverImage);
+  if (document.cover_image && document.cover_image.startsWith("http")) {
+    urls.push(document.cover_image);
   }
 
   if (document.content) {

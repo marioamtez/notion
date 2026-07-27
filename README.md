@@ -2,7 +2,7 @@
 
 This project is a simplified clone of the popular productivity application, Notion. It's designed to replicate some of the core features of Notion, providing a platform where users can create, edit, and organize their notes in a flexible and intuitive interface.
 
-It uses Convex as the backend, which is a real-time database that allows for instant data updates. The application also uses Edgestore, a distributed key-value store, to manage the images and files uploaded by the users. The user authentication is handled by Clerk, a secure and scalable user authentication API.
+It uses Supabase Postgres as the backend to store documents and user settings. The application also uses Edgestore, a distributed key-value store, to manage the images and files uploaded by the users. User authentication is handled by Supabase Auth, shared with the Mbrand AI project so only existing Mbrand AI users can sign in.
 
 ## Live
 
@@ -43,8 +43,7 @@ Zotion - [https://zotion-app.vercel.app/](https://zotion-app.vercel.app/)
 ![Shadcn-ui](https://img.shields.io/badge/shadcn/ui-000000.svg?style=for-the-badge&logo=shadcn/ui&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6.svg?style=for-the-badge&logo=TypeScript&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC.svg?style=for-the-badge&logo=Tailwind-CSS&logoColor=white)
-![Clerk](https://img.shields.io/badge/Clerk-6C47FF.svg?style=for-the-badge&logo=Clerk&logoColor=white)
-![Convex](https://img.shields.io/badge/Convex-ee342f.svg?style=for-the-badge&logo=Convex&logoColor=white)
+![Supabase](https://img.shields.io/badge/Supabase-3ECF8E.svg?style=for-the-badge&logo=supabase&logoColor=white)
 ![Edgestore](https://img.shields.io/badge/Edgestore-a57fff.svg?style=for-the-badge&logo=Edgestore&logoColor=white)
 ![Blocknote](https://img.shields.io/badge/Blocknote-ff8c00.svg?style=for-the-badge&logo=Blocknote&logoColor=white)
 ![dnd-kit](https://img.shields.io/badge/dnd--kit-000000?style=for-the-badge&logo=react&logoColor=white)
@@ -61,27 +60,29 @@ npm install
 3. Set up the environment variables
 
 ```
-CONVEX_DEPLOYMENT=
-NEXT_PUBLIC_CONVEX_URL=
-CLERK_JWT_ISSUER_DOMAIN=
-
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
-CLERK_SECRET_KEY=
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
 
 EDGE_STORE_ACCESS_KEY=
 EDGE_STORE_SECRET_KEY=
 
-// for deploying
-CONVEX_DEPLOY_KEY=
+// server-only, never exposed to the client. Used by scripts/migrate-notion.mts
+// and by the /admin/users page (lib/supabase/admin.ts) to list Supabase Auth
+// users. Access to /admin/users is restricted to the emails in lib/adminEmails.ts.
+SUPABASE_SERVICE_ROLE_KEY=
 ```
 
-4. Run Convex
+Authentication is shared with Mbrand AI: only users that already exist in
+that Supabase project's `auth.users` can sign in here — there is no sign-up
+flow in this app.
 
-```
-npx convex dev
-```
+Before first use, paste `supabase/schema.sql` into that Supabase project's
+Dashboard → SQL Editor and run it once — it creates the `documents` and
+`user_settings` tables, their Row Level Security policies, and the
+`archive_document`/`restore_document`/`reorder_documents`/`toggle_favorite`
+RPC functions the app depends on.
 
-5. Run the development server
+4. Run the development server
 
 ```
 npm run dev

@@ -12,10 +12,8 @@ import { useCoverImage } from "@/hooks/useCoverImage";
 import { SingleImageDropzone } from "@/components/single-image-dropzone";
 import { useEffect, useState } from "react";
 import { useEdgeStore } from "@/lib/edgestore";
-import { useMutation } from "convex/react";
-import { api } from "@/convex/_generated/api";
+import { useUpdateDocument } from "@/hooks/useDocumentMutations";
 import { useParams } from "next/navigation";
-import { Id } from "@/convex/_generated/dataModel";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
@@ -48,7 +46,7 @@ export const CoverImageModal = () => {
   const [file, setFile] = useState<File>();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const update = useMutation(api.documents.update);
+  const { mutateAsync: update } = useUpdateDocument();
   const coverImage = useCoverImage();
   const { edgestore } = useEdgeStore();
 
@@ -116,8 +114,8 @@ export const CoverImageModal = () => {
       });
 
       await update({
-        id: params.documentId as Id<"documents">,
-        coverImage: res.url,
+        id: params.documentId as string,
+        cover_image: res.url,
       });
 
       onClose();
@@ -129,8 +127,8 @@ export const CoverImageModal = () => {
       await edgestore.publicFiles.delete({ url: coverImage.url });
     }
     await update({
-      id: params.documentId as Id<"documents">,
-      coverImage: color,
+      id: params.documentId as string,
+      cover_image: color,
     });
     onClose();
   };

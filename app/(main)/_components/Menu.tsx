@@ -1,9 +1,11 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { Id } from "@/convex/_generated/dataModel";
-import { useMutation, useQuery } from "convex/react";
-import { api } from "@/convex/_generated/api";
+import { useDocument } from "@/hooks/useDocumentQueries";
+import {
+  useArchiveDocument,
+  useUpdateDocument,
+} from "@/hooks/useDocumentMutations";
 import { toast } from "sonner";
 import {
   DropdownMenu,
@@ -28,7 +30,7 @@ import { useWordCount } from "@/hooks/useWordCount";
 import { Switch } from "@/components/ui/switch";
 
 interface MenuProps {
-  documentId: Id<"documents">;
+  documentId: string;
 }
 
 export const Menu = ({ documentId }: MenuProps) => {
@@ -37,15 +39,13 @@ export const Menu = ({ documentId }: MenuProps) => {
   const settings = useSettings();
   const words = useWordCount();
 
-  const document = useQuery(api.documents.getById, {
-    documentId,
-  });
-  const archive = useMutation(api.documents.archive);
-  const update = useMutation(api.documents.update);
+  const { data: document } = useDocument(documentId);
+  const { mutateAsync: archive } = useArchiveDocument();
+  const { mutateAsync: update } = useUpdateDocument();
 
-  const isFullWidth = document?.fullWidth ?? true;
-  const toggleToc = document?.showToc ?? true;
-  const isSmallText = !!document?.smallText;
+  const isFullWidth = document?.full_width ?? true;
+  const toggleToc = document?.show_toc ?? true;
+  const isSmallText = !!document?.small_text;
 
   const onArchive = () => {
     router.push("/documents");
@@ -61,21 +61,21 @@ export const Menu = ({ documentId }: MenuProps) => {
   const onFullWidthChange = (checked: boolean) => {
     update({
       id: documentId,
-      fullWidth: checked,
+      full_width: checked,
     });
   };
 
   const onSmallTextChange = (checked: boolean) => {
     update({
       id: documentId,
-      smallText: checked,
+      small_text: checked,
     });
   };
 
   const onTocChange = (checked: boolean) => {
     update({
       id: documentId,
-      showToc: checked,
+      show_toc: checked,
     });
   };
 
@@ -131,7 +131,7 @@ export const Menu = ({ documentId }: MenuProps) => {
             Last edited on{" "}
             {document
               ? new Date(
-                  document.updatedAt ?? document._creationTime,
+                  document.updated_at ?? document.created_at,
                 ).toLocaleString("en-US", {
                   month: "short",
                   day: "numeric",
@@ -145,7 +145,7 @@ export const Menu = ({ documentId }: MenuProps) => {
           <p>
             Created on{" "}
             {document
-              ? new Date(document._creationTime).toLocaleString("en-US", {
+              ? new Date(document.created_at).toLocaleString("en-US", {
                   month: "short",
                   day: "numeric",
                   year: "numeric",

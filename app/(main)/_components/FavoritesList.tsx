@@ -1,10 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { useQuery, useMutation } from "convex/react";
 import { useParams, useRouter } from "next/navigation";
-import { api } from "@/convex/_generated/api";
-import { Id } from "@/convex/_generated/dataModel";
+import { useFavorites } from "@/hooks/useDocumentQueries";
+import { useToggleFavoriteDocument } from "@/hooks/useDocumentMutations";
 import { Item } from "./Item";
 import { DocumentList } from "./DocumentList";
 import { FileIcon, Star } from "lucide-react";
@@ -13,11 +12,11 @@ import { toast } from "sonner";
 export const FavoritesList = ({ navDrawer }: { navDrawer?: boolean }) => {
   const params = useParams();
   const router = useRouter();
-  const documents = useQuery(api.documents.getFavorites);
-  const toggleFavorite = useMutation(api.documents.toggleFavorite);
+  const { data: documents } = useFavorites();
+  const { mutateAsync: toggleFavorite } = useToggleFavoriteDocument();
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
 
-  const onToggleFavorite = (id: Id<"documents">) => {
+  const onToggleFavorite = (id: string) => {
     const promise = toggleFavorite({ id });
     toast.promise(promise, {
       loading: "Updating favorites...",
@@ -48,25 +47,25 @@ export const FavoritesList = ({ navDrawer }: { navDrawer?: boolean }) => {
         Favorites
       </p>
       {documents.map((document) => (
-        <div key={document._id}>
+        <div key={document.id}>
           <Item
-            id={document._id}
-            onClick={() => router.push(`/documents/${document._id}`)}
+            id={document.id}
+            onClick={() => router.push(`/documents/${document.id}`)}
             label={document.title}
             icon={FileIcon}
-            documentIcon={document.icon}
-            active={params.documentId === document._id}
+            documentIcon={document.icon ?? undefined}
+            active={params.documentId === document.id}
             level={0}
-            expanded={expanded[document._id]}
-            onExpand={() => onExpand(document._id)}
-            isFavorite={document.isFavorite}
-            onFavorite={() => onToggleFavorite(document._id)}
+            expanded={expanded[document.id]}
+            onExpand={() => onExpand(document.id)}
+            isFavorite={document.is_favorite}
+            onFavorite={() => onToggleFavorite(document.id)}
             showDragHandle={false}
             navDrawer={navDrawer}
           />
-          {expanded[document._id] && (
+          {expanded[document.id] && (
             <DocumentList
-              parentDocumentId={document._id}
+              parentDocumentId={document.id}
               level={1}
               navDrawer={navDrawer}
             />

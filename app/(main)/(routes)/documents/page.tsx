@@ -1,22 +1,25 @@
 "use client";
 
 import Image from "next/image";
-import { useUser } from "@clerk/nextjs";
+import { useSupabaseUser } from "@/hooks/useSupabaseUser";
 import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
-import { useMutation } from "convex/react";
-import { api } from "@/convex/_generated/api";
+import { useCreateDocument } from "@/hooks/useDocumentMutations";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
 const DocumentsPage = () => {
-  const { user } = useUser();
+  const { user } = useSupabaseUser();
+  const firstName =
+    user?.user_metadata?.first_name ??
+    user?.user_metadata?.full_name?.split(" ")[0] ??
+    user?.email;
   const router = useRouter();
-  const create = useMutation(api.documents.create);
+  const { mutateAsync: create } = useCreateDocument();
 
   const onCreate = () => {
-    const promise = create({ title: "Untitled" }).then((documentId) =>
-      router.push(`/documents/${documentId}`),
+    const promise = create({ title: "Untitled" }).then((doc) =>
+      router.push(`/documents/${doc.id}`),
     );
 
     toast.promise(promise, {
@@ -45,7 +48,7 @@ const DocumentsPage = () => {
         className="hidden size-75 dark:block"
       />
       <h2 className="text-lg font-medium">
-        Welcome to {user?.firstName}&apos;s Zotion
+        Welcome to {firstName}&apos;s Zotion
       </h2>
       <Button onClick={onCreate}>
         <PlusCircle className="mr-2 h-4 w-4" />

@@ -1,9 +1,8 @@
 "use client";
 
-import { api } from "@/convex/_generated/api";
-import { Id } from "@/convex/_generated/dataModel";
 import { cn } from "@/lib/utils";
-import { useMutation, useQuery } from "convex/react";
+import { useDocument } from "@/hooks/useDocumentQueries";
+import { useToggleFavoriteDocument } from "@/hooks/useDocumentMutations";
 import { MenuIcon, Star } from "lucide-react";
 import { useParams } from "next/navigation";
 import { Title } from "./Title";
@@ -21,14 +20,12 @@ interface NavbarProps {
 export const Navbar = ({ isCollapsed, onResetWidth }: NavbarProps) => {
   const params = useParams();
 
-  const toggleFavorite = useMutation(api.documents.toggleFavorite);
-  const document = useQuery(api.documents.getById, {
-    documentId: params.documentId as Id<"documents">,
-  });
+  const { mutateAsync: toggleFavorite } = useToggleFavoriteDocument();
+  const { data: document } = useDocument(params.documentId as string);
 
   const onToggleFavorite = () => {
     if (!document) return;
-    toggleFavorite({ id: document._id });
+    toggleFavorite({ id: document.id });
   };
 
   if (document === undefined) {
@@ -61,26 +58,26 @@ export const Navbar = ({ isCollapsed, onResetWidth }: NavbarProps) => {
           <div className="flex shrink-0 items-center">
             <Publish initialData={document} />
             <ActionTooltip
-              label={document.isFavorite ? "Unfavorite" : "Favorite"}
+              label={document.is_favorite ? "Unfavorite" : "Favorite"}
             >
               <Button
                 variant="ghost"
                 onClick={onToggleFavorite}
-                aria-label={document.isFavorite ? "Unfavorite" : "Favorite"}
+                aria-label={document.is_favorite ? "Unfavorite" : "Favorite"}
               >
                 <Star
                   className={cn(
                     "text-muted-foreground size-4.5",
-                    document.isFavorite && "fill-yellow-400 text-yellow-400",
+                    document.is_favorite && "fill-yellow-400 text-yellow-400",
                   )}
                 />
               </Button>
             </ActionTooltip>
-            <Menu documentId={document._id} />
+            <Menu documentId={document.id} />
           </div>
         </div>
       </nav>
-      {document.isArchived && <Banner documentId={document._id} />}
+      {document.is_archived && <Banner documentId={document.id} />}
     </>
   );
 };

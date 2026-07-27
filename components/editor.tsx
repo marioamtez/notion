@@ -18,7 +18,6 @@ import { useEdgeStore } from "@/lib/edgestore";
 import { codeBlockOptions } from "@blocknote/code-block";
 import "@blocknote/core/style.css";
 import "@blocknote/mantine/style.css";
-import { Doc } from "@/convex/_generated/dataModel";
 
 interface EditorProps {
   onChange: (value: string) => void;

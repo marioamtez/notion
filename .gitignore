@@ -28,9 +28,13 @@ yarn-error.log*
 # local env files
 .env*.local
 
+# raw Notion export used by scripts/migrate-notion.ts (contains real corporate data)
+scripts/migration-data/
+
 # vercel
 .vercel
 
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+.env*

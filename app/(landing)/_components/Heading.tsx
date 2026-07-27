@@ -2,13 +2,13 @@
 
 import { Spinner } from "@/components/spinner";
 import { Button } from "@/components/ui/button";
-import { SignInButton, SignUpButton } from "@clerk/nextjs";
-import { useConvexAuth } from "convex/react";
+import { useSupabaseUser } from "@/hooks/useSupabaseUser";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
 export const Heading = () => {
-  const { isAuthenticated, isLoading } = useConvexAuth();
+  const { user, isLoading } = useSupabaseUser();
+  const isAuthenticated = !!user;
 
   return (
     <div className="max-w-3xl space-y-4">
@@ -34,12 +34,12 @@ export const Heading = () => {
         </Button>
       )}
       {!isAuthenticated && !isLoading && (
-        <SignUpButton mode="modal">
-          <Button>
-            Get Zotion free
+        <Button asChild>
+          <Link href="/sign-in">
+            Log in to Zotion
             <ArrowRight className="ml-2 h-4 w-4" />
-          </Button>
-        </SignUpButton>
+          </Link>
+        </Button>
       )}
     </div>
   );

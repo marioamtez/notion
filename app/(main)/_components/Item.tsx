@@ -1,11 +1,14 @@
 "use client";
 
 import { Skeleton } from "@/components/ui/skeleton";
-import { api } from "@/convex/_generated/api";
-import { Id } from "@/convex/_generated/dataModel";
 import { cn } from "@/lib/utils";
 import { useParams, useRouter } from "next/navigation";
-import { useMutation, useQuery } from "convex/react";
+import {
+  useArchiveDocument,
+  useCreateDocument,
+  useRestoreDocument,
+} from "@/hooks/useDocumentMutations";
+import { useDocument } from "@/hooks/useDocumentQueries";
 import { toast } from "sonner";
 import {
   DropdownMenu,
@@ -30,7 +33,7 @@ import { ActionTooltip } from "@/components/action-tooltip";
 import { useNavDrawer } from "@/hooks/useNavDrawer";
 
 interface ItemProps {
-  id?: Id<"documents">;
+  id?: string;
   documentIcon?: string;
   active?: boolean;
   expanded?: boolean;
@@ -67,14 +70,11 @@ export const Item = ({
 
   const { setInnerPopoverOpen } = useNavDrawer();
 
-  const create = useMutation(api.documents.create);
-  const archive = useMutation(api.documents.archive);
-  const restore = useMutation(api.documents.restore);
+  const { mutateAsync: create } = useCreateDocument();
+  const { mutateAsync: archive } = useArchiveDocument();
+  const { mutateAsync: restore } = useRestoreDocument();
 
-  const document = useQuery(
-    api.documents.getById,
-    id ? { documentId: id } : "skip",
-  );
+  const { data: document } = useDocument(id, { enabled: !!id });
 
   const onArchive = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     event.stopPropagation();
@@ -112,12 +112,12 @@ export const Item = ({
     event.stopPropagation();
     if (!id) return;
 
-    const promise = create({ title: "Untitled", parentDocument: id }).then(
-      (documentId) => {
+    const promise = create({ title: "Untitled", parent_document: id }).then(
+      (doc) => {
         if (!expanded) {
           onExpand?.();
         }
-        router.push(`/documents/${documentId}`);
+        router.push(`/documents/${doc.id}`);
       },
     );
 
@@ -235,7 +235,7 @@ export const Item = ({
                   Last edited on{" "}
                   {document
                     ? new Date(
-                        document.updatedAt ?? document._creationTime,
+                        document.updated_at ?? document.created_at,
                       ).toLocaleString("en-US", {
                         month: "short",
                         day: "numeric",
@@ -249,7 +249,7 @@ export const Item = ({
                 <p className="text-muted-foreground/70">
                   Created on{" "}
                   {document
-                    ? new Date(document._creationTime).toLocaleString("en-US", {
+                    ? new Date(document.created_at).toLocaleString("en-US", {
                         month: "short",
                         day: "numeric",
                         year: "numeric",

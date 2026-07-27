@@ -21,8 +21,7 @@ import { DocumentList } from "./DocumentList";
 import { Item } from "./Item";
 import { TrashBox } from "./TrashBox";
 import { toast } from "sonner";
-import { useMutation } from "convex/react";
-import { api } from "@/convex/_generated/api";
+import { useCreateDocument } from "@/hooks/useDocumentMutations";
 import { useRouter } from "next/navigation";
 import { useSearch } from "@/hooks/useSearch";
 import { useSettings } from "@/hooks/useSettingsModal";
@@ -41,14 +40,14 @@ const NavDrawer = ({ resetWidth, isMobile }: NavDrawerProps) => {
   const [isEdgeHovered, setIsEdgeHovered] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-  const create = useMutation(api.documents.create);
+  const { mutateAsync: create } = useCreateDocument();
 
   const { isInnerPopoverOpen, setInnerPopoverOpen } = useNavDrawer();
   const open = isEdgeHovered || isDrawerOpen || isInnerPopoverOpen;
 
   const handleCreate = () => {
-    const promise = create({ title: "Untitled" }).then((documentId) =>
-      router.push(`/documents/${documentId}`),
+    const promise = create({ title: "Untitled" }).then((doc) =>
+      router.push(`/documents/${doc.id}`),
     );
 
     toast.promise(promise, {

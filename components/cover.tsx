@@ -8,10 +8,8 @@ import { Button } from "./ui/button";
 import { EllipsisVertical, ImageIcon, X } from "lucide-react";
 import { useCoverImage } from "@/hooks/useCoverImage";
 import { useFocusMode } from "@/hooks/useFocusMode";
-import { useMutation } from "convex/react";
-import { api } from "@/convex/_generated/api";
+import { useRemoveCoverImage } from "@/hooks/useDocumentMutations";
 import { useParams } from "next/navigation";
-import { Id } from "@/convex/_generated/dataModel";
 import { useEdgeStore } from "@/lib/edgestore";
 import { Skeleton } from "./ui/skeleton";
 import { Spinner } from "./spinner";
@@ -35,7 +33,7 @@ export const Cover = ({ url, preview }: CoverImageProps) => {
   const coverImage = useCoverImage();
   const { focusMode } = useFocusMode({ enabled: !preview });
 
-  const removeCoverImage = useMutation(api.documents.removeCoverImage);
+  const { mutateAsync: removeCoverImage } = useRemoveCoverImage();
 
   const canHover = useMediaQuery("(hover: hover) and (pointer: fine)");
 
@@ -43,7 +41,7 @@ export const Cover = ({ url, preview }: CoverImageProps) => {
     setIsRemoving(true);
     try {
       await removeCoverImage({
-        id: params.documentId as Id<"documents">,
+        id: params.documentId as string,
       });
       if (url && url.startsWith("http")) {
         await edgestore.publicFiles.delete({ url });

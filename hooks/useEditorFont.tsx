@@ -1,5 +1,4 @@
-import { useQuery, useMutation } from "convex/react";
-import { api } from "@/convex/_generated/api";
+import { useUserSettings } from "@/hooks/useUserSettings";
 import { useLocalStorage } from "usehooks-ts";
 
 export type EditorFont = "default" | "Lora" | "JetBrains Mono";
@@ -14,20 +13,16 @@ export const useEditorFont = ({ enabled = true }: UseEditorFontOptions) => {
     "default",
   );
 
-  const settings = useQuery(
-    api.userSettings.getUserSettings,
-    enabled ? {} : "skip",
-  );
-  const updateSettings = useMutation(api.userSettings.updateUserSettings);
-  const isFontLoading = enabled && settings === undefined;
+  const { settings, isLoading, mutation } = useUserSettings(enabled);
+  const isFontLoading = enabled && isLoading;
 
   const editorFont: EditorFont =
-    (settings?.editorFont as EditorFont) ?? cachedFont;
+    (settings?.editor_font as EditorFont) ?? cachedFont;
 
   const setEditorFont = (font: EditorFont) => {
     if (!enabled) return;
     setCachedFont(font);
-    updateSettings({ editorFont: font }).catch(console.error);
+    mutation.mutateAsync({ editor_font: font }).catch(console.error);
   };
 
   return { editorFont, setEditorFont, isFontLoading };

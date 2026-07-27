@@ -3,18 +3,17 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
-import { api } from "@/convex/_generated/api";
-import { Doc } from "@/convex/_generated/dataModel";
-import { useMutation } from "convex/react";
+import { useUpdateDocument } from "@/hooks/useDocumentMutations";
+import type { Document } from "@/types/document";
 import { ChangeEvent, useRef, useState } from "react";
 
 interface TitleProps {
-  initialData: Doc<"documents">;
+  initialData: Document;
 }
 
 export const Title = ({ initialData }: TitleProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
-  const update = useMutation(api.documents.update);
+  const { mutateAsync: update } = useUpdateDocument();
 
   const [title, setTitle] = useState(initialData.title || "Untitled");
   const [isEditing, setIsEditing] = useState(false);
@@ -35,7 +34,7 @@ export const Title = ({ initialData }: TitleProps) => {
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
     update({
-      id: initialData._id,
+      id: initialData.id,
       title: event.target.value || "Untitled",
     });
   };

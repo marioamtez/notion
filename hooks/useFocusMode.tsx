@@ -1,22 +1,17 @@
-import { useQuery, useMutation } from "convex/react";
-import { api } from "@/convex/_generated/api";
+import { useUserSettings } from "@/hooks/useUserSettings";
 
 interface UseFocusModeOptions {
   enabled?: boolean;
 }
 
 export const useFocusMode = ({ enabled = true }: UseFocusModeOptions = {}) => {
-  const settings = useQuery(
-    api.userSettings.getUserSettings,
-    enabled ? {} : "skip",
-  );
-  const updateSettings = useMutation(api.userSettings.updateUserSettings);
+  const { settings, mutation } = useUserSettings(enabled);
 
-  const focusMode = settings?.focusMode ?? false;
+  const focusMode = settings?.focus_mode ?? false;
 
   const setFocusMode = (value: boolean) => {
     if (!enabled) return;
-    updateSettings({ focusMode: value });
+    mutation.mutateAsync({ focus_mode: value });
   };
 
   return { focusMode, setFocusMode };
