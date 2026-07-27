@@ -228,7 +228,7 @@ const Editor = ({
       style={
         {
           "--editor-font": fontFamilies[editorFont as EditorFont],
-          "--editor-font-size": smallText ? "15px" : "16px",
+          "--editor-font-size": smallText ? "13px" : "14px",
         } as React.CSSProperties
       }
       onDropCapture={handleCapture}
