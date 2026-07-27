@@ -87,14 +87,14 @@ export const Item = ({
     const promise = archive({ id });
 
     toast.promise(promise, {
-      loading: "Moving to trash...",
-      error: "Failed to archive note.",
+      loading: "Moviendo a la papelera...",
+      error: "No se pudo archivar la nota.",
     });
 
     promise.then(() => {
-      toast("Note moved to trash", {
+      toast("Nota movida a la papelera", {
         action: {
-          label: "Undo",
+          label: "Deshacer",
           onClick: () => restore({ id }),
         },
       });
@@ -112,7 +112,7 @@ export const Item = ({
     event.stopPropagation();
     if (!id) return;
 
-    const promise = create({ title: "Untitled", parent_document: id }).then(
+    const promise = create({ title: "Sin título", parent_document: id }).then(
       (doc) => {
         if (!expanded) {
           onExpand?.();
@@ -122,9 +122,9 @@ export const Item = ({
     );
 
     toast.promise(promise, {
-      loading: "Creating new note",
-      success: "New note created.",
-      error: "Failed to create note.",
+      loading: "Creando nota nueva",
+      success: "Nota creada.",
+      error: "No se pudo crear la nota.",
     });
   };
 
@@ -153,7 +153,7 @@ export const Item = ({
         {!!id && (
           <div
             role="button"
-            aria-label={expanded ? "Collapse page" : "Expand page"}
+            aria-label={expanded ? "Contraer página" : "Expandir página"}
             aria-expanded={!!expanded}
             className="mr-1 h-full rounded-sm hover:bg-neutral-300 dark:hover:bg-neutral-600"
             onClick={handleExpand}
@@ -183,10 +183,10 @@ export const Item = ({
       )}
       {!!id && (
         <div className="ml-auto flex items-center gap-x-2">
-          <ActionTooltip label="Add sub-page">
+          <ActionTooltip label="Añadir subpágina">
             <div
               role="button"
-              aria-label="Add sub-page"
+              aria-label="Añadir subpágina"
               onClick={onCreate}
               className="ml-auto h-full rounded-sm opacity-100 transition hover:bg-neutral-300 md:opacity-0 md:group-hover:opacity-100 dark:hover:bg-neutral-600"
             >
@@ -194,11 +194,11 @@ export const Item = ({
             </div>
           </ActionTooltip>
           <DropdownMenu onOpenChange={navDrawer ? onOpenChange : undefined}>
-            <ActionTooltip label="More actions">
+            <ActionTooltip label="Más acciones">
               <DropdownMenuTrigger onClick={(e) => e.stopPropagation()} asChild>
                 <div
                   role="button"
-                  aria-label="More actions"
+                  aria-label="Más acciones"
                   className="ml-auto h-full rounded-sm opacity-100 transition hover:bg-neutral-300 md:opacity-0 md:group-hover:opacity-100 dark:hover:bg-neutral-600"
                 >
                   <MoreHorizontal className="text-muted-foreground h-4 w-4" />
@@ -223,33 +223,32 @@ export const Item = ({
                     isFavorite && "fill-yellow-400 text-yellow-400",
                   )}
                 />
-                {isFavorite ? "Remove from favorites" : "Add to favorites"}
+                {isFavorite ? "Quitar de favoritos" : "Añadir a favoritos"}
               </DropdownMenuItem>
               <DropdownMenuItem onClick={onArchive}>
                 <Trash className="mr-2 h-4 w-4" />
-                Delete
+                Eliminar
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <div className="space-y-0.5 p-2 text-[.6875rem]">
                 <p className="text-muted-foreground/70">
-                  Last edited on{" "}
+                  Última edición el{" "}
                   {document
                     ? new Date(
                         document.updated_at ?? document.created_at,
-                      ).toLocaleString("en-US", {
+                      ).toLocaleString("es-ES", {
                         month: "short",
                         day: "numeric",
                         year: "numeric",
                         hour: "2-digit",
                         minute: "2-digit",
-                        hour12: true,
                       })
                     : "..."}
                 </p>
                 <p className="text-muted-foreground/70">
-                  Created on{" "}
+                  Creado el{" "}
                   {document
-                    ? new Date(document.created_at).toLocaleString("en-US", {
+                    ? new Date(document.created_at).toLocaleString("es-ES", {
                         month: "short",
                         day: "numeric",
                         year: "numeric",

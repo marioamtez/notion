@@ -31,17 +31,17 @@ export const ConfirmModal = ({ children, onConfirm }: ConfirmmModalProps) => {
       </AlertDialogTrigger>
       <AlertDialogContent className="dark:bg-dark">
         <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogTitle>¿Estás completamente seguro?</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone.
+            Esta acción no se puede deshacer.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel onClick={(e) => e.stopPropagation()}>
-            Cancel
+            Cancelar
           </AlertDialogCancel>
           <AlertDialogAction variant="destructive" onClick={handleConfirm}>
-            Confirm
+            Confirmar
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

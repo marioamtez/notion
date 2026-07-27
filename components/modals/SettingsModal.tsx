@@ -16,7 +16,7 @@ import { useFocusMode } from "@/hooks/useFocusMode";
 import { fontFamilies } from "@/lib/editorFont";
 
 const FONTS: { label: string; value: EditorFont }[] = [
-  { label: "Default", value: "default" },
+  { label: "Predeterminada", value: "default" },
   { label: "Sans", value: "Lora" },
   { label: "Mono", value: "JetBrains Mono" },
 ];
@@ -32,26 +32,26 @@ export const SettingsModal = () => {
 
   return (
     <Dialog open={settings.isOpen} onOpenChange={settings.onClose}>
-      <DialogTitle hidden>Settings</DialogTitle>
+      <DialogTitle hidden>Ajustes</DialogTitle>
       <DialogContent className="dark:bg-dark">
         <DialogHeader className="border-b pb-2">
-          <h2 className="text-lg font-medium">My settings</h2>
+          <h2 className="text-lg font-medium">Mis ajustes</h2>
         </DialogHeader>
         <div className="divide-primary/10 divide-y">
           <div className="flex items-center justify-between py-2">
             <div className="flex flex-col gap-y-1">
-              <Label>Appearance</Label>
+              <Label>Apariencia</Label>
               <span className="text-muted-foreground text-[0.8rem]">
-                Customize how Zotion looks on your device.
+                Personaliza el aspecto de Mbrand Notion en tu dispositivo.
               </span>
             </div>
             <ModeToggle />
           </div>
           <div className="flex flex-col gap-y-3 py-2">
             <div className="flex flex-col gap-y-1">
-              <Label>Editor font</Label>
+              <Label>Fuente del editor</Label>
               <span className="text-muted-foreground text-[0.8rem]">
-                Choose the font used in the editor.
+                Elige la fuente que se usa en el editor.
               </span>
             </div>
             <div className="flex gap-2">
@@ -81,13 +81,13 @@ export const SettingsModal = () => {
           </div>
           <div className="flex items-center justify-between gap-4 py-2">
             <div className="flex flex-col gap-y-1">
-              <Label>Focus mode</Label>
+              <Label>Modo enfoque</Label>
               <span className="text-muted-foreground text-[0.8rem]">
-                Collapse the sidebar and topbar to minimize distractions and
-                focus on your content.
+                Contrae la barra lateral y la barra superior para minimizar
+                distracciones y centrarte en tu contenido.
               </span>
               <span className="text-muted-foreground text-xs">
-                Shortcut:
+                Atajo:
                 <kbd className="bg-muted text-muted-foreground pointer-events-none ml-2 hidden h-5 items-center gap-1 rounded border px-1.5 font-mono text-[.625rem] font-medium opacity-100 select-none md:inline-flex dark:bg-neutral-700">
                   Ctrl + Shift + F
                 </kbd>

@@ -58,7 +58,7 @@ export const UserItem = ({ navDrawer }: { navDrawer?: boolean }) => {
               <AvatarImage src={avatarUrl} />
             </Avatar>
             <span className="line-clamp-1 text-start font-medium">
-              {fullName}&apos;s Zotion
+              Notion de {fullName}
             </span>
           </div>
           <ChevronsLeftRight className="text-muted-foreground ml-2 h-4 w-4 rotate-90" />
@@ -81,7 +81,7 @@ export const UserItem = ({ navDrawer }: { navDrawer?: boolean }) => {
               </Avatar>
             </div>
             <div className="space-y-1">
-              <p className="line-clamp-1 text-sm">{fullName}&apos;s Zotion</p>
+              <p className="line-clamp-1 text-sm">Notion de {fullName}</p>
             </div>
           </div>
         </div>
@@ -93,7 +93,7 @@ export const UserItem = ({ navDrawer }: { navDrawer?: boolean }) => {
           <button onClick={onSignOut}>
             <LogOut className="text-muted-foreground size-4" />
             <span className="text-muted-foreground transition-colors group-hover:text-black dark:group-hover:text-white">
-              Log Out
+              Cerrar sesión
             </span>
           </button>
         </DropdownMenuItem>

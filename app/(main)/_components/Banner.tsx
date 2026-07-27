@@ -22,9 +22,9 @@ export const Banner = ({ documentId }: BannerProps) => {
     const promise = remove({ id: documentId });
 
     toast.promise(promise, {
-      loading: "Deleting note...",
-      success: "Note Deleted!",
-      error: "Failed to delete note.",
+      loading: "Eliminando nota...",
+      success: "¡Nota eliminada!",
+      error: "No se pudo eliminar la nota.",
     });
 
     router.push("/documents");
@@ -34,16 +34,16 @@ export const Banner = ({ documentId }: BannerProps) => {
     const promise = restore({ id: documentId });
 
     toast.promise(promise, {
-      loading: "Restoring note...",
-      success: "Note restored!",
-      error: "Failed to restore note.",
+      loading: "Restaurando nota...",
+      success: "¡Nota restaurada!",
+      error: "No se pudo restaurar la nota.",
     });
   };
 
   return (
     <div className="flex w-full items-center justify-center gap-x-2 bg-rose-500 p-2 text-center text-sm text-white">
       <p>
-        This page is in the <span className="font-bold">Trash.</span>
+        Esta página está en la <span className="font-bold">papelera.</span>
       </p>
       <Button
         size="sm"
@@ -51,7 +51,7 @@ export const Banner = ({ documentId }: BannerProps) => {
         variant="outline"
         className="h-auto border-white bg-transparent p-1 px-2 font-normal text-white transition hover:bg-white hover:text-rose-500"
       >
-        Restore page
+        Restaurar página
       </Button>
       <ConfirmModal onConfirm={onRemove}>
         <Button
@@ -59,7 +59,7 @@ export const Banner = ({ documentId }: BannerProps) => {
           variant="outline"
           className="h-auto border-white bg-transparent p-1 px-2 font-normal text-white transition hover:bg-white hover:text-rose-500"
         >
-          Delete forever
+          Eliminar para siempre
         </Button>
       </ConfirmModal>
     </div>

@@ -46,14 +46,14 @@ const NavDrawer = ({ resetWidth, isMobile }: NavDrawerProps) => {
   const open = isEdgeHovered || isDrawerOpen || isInnerPopoverOpen;
 
   const handleCreate = () => {
-    const promise = create({ title: "Untitled" }).then((doc) =>
+    const promise = create({ title: "Sin título" }).then((doc) =>
       router.push(`/documents/${doc.id}`),
     );
 
     toast.promise(promise, {
-      loading: "Creating a new note....",
-      success: "New note created.",
-      error: "Failed to create a note.",
+      loading: "Creando una nota nueva....",
+      success: "Nota creada.",
+      error: "No se pudo crear la nota.",
     });
   };
 
@@ -77,11 +77,11 @@ const NavDrawer = ({ resetWidth, isMobile }: NavDrawerProps) => {
         >
           <div className="relative flex items-center justify-between gap-4 px-2">
             <UserItem navDrawer />
-            <ActionTooltip label="Lock sidebar open (Ctrl + \)">
+            <ActionTooltip label="Fijar la barra lateral abierta (Ctrl + \)">
               <div
                 onClick={resetWidth}
                 role="button"
-                aria-label="Open full sidebar"
+                aria-label="Abrir la barra lateral completa"
                 className={cn(
                   "text-muted-foreground h-6 w-6 rounded-sm transition hover:bg-neutral-300 dark:hover:bg-neutral-600",
                 )}
@@ -93,19 +93,19 @@ const NavDrawer = ({ resetWidth, isMobile }: NavDrawerProps) => {
           <div className="flex items-center justify-between gap-2 px-2 pb-2">
             <div className="flex items-center justify-center">
               <Item
-                label="Search"
+                label="Buscar"
                 icon={Search}
                 onClick={search.onOpen}
                 navDrawer
               />
               <Item
-                label="New Page"
+                label="Nueva página"
                 icon={PlusCircle}
                 onClick={handleCreate}
                 navDrawer
               />
             </div>
-            <ActionTooltip label="Settings">
+            <ActionTooltip label="Ajustes">
               <div className="justify-end">
                 <Item icon={Settings} onClick={settings.onOpen} navDrawer />
               </div>
@@ -115,14 +115,14 @@ const NavDrawer = ({ resetWidth, isMobile }: NavDrawerProps) => {
             <FavoritesList navDrawer />
             <div>
               <p className="text-muted-foreground/60 px-3 py-1 text-xs font-medium">
-                Notes
+                Notas
               </p>
               <DocumentList navDrawer />
             </div>
-            <Item onClick={handleCreate} icon={Plus} label="Add a page" />
+            <Item onClick={handleCreate} icon={Plus} label="Añadir página" />
             <Popover onOpenChange={setInnerPopoverOpen}>
               <PopoverTrigger className="mt-3 w-full">
-                <Item label="Trash" icon={Trash} />
+                <Item label="Papelera" icon={Trash} />
               </PopoverTrigger>
               <PopoverContent
                 side={isMobile ? "bottom" : "right"}

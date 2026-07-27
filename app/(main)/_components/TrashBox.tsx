@@ -45,9 +45,9 @@ export const TrashBox = () => {
     const promise = restore({ id: documentId });
 
     toast.promise(promise, {
-      loading: "Restoring note..",
-      success: "Note restored!",
-      error: "Failed to restore note.",
+      loading: "Restaurando nota..",
+      success: "¡Nota restaurada!",
+      error: "No se pudo restaurar la nota.",
     });
   };
 
@@ -66,9 +66,9 @@ export const TrashBox = () => {
     const promise = remove({ id: documentId });
 
     toast.promise(promise, {
-      loading: "Deleting note..",
-      success: "Note deleted!",
-      error: "Failed to delete note.",
+      loading: "Eliminando nota..",
+      success: "¡Nota eliminada!",
+      error: "No se pudo eliminar la nota.",
     });
 
     if (params.documentId === documentId) {
@@ -85,9 +85,9 @@ export const TrashBox = () => {
     const promise = removeAll();
 
     toast.promise(promise, {
-      loading: "Emptying trash..",
-      success: "Trash emptied!",
-      error: "Failed to empty trash.",
+      loading: "Vaciando la papelera..",
+      success: "¡Papelera vaciada!",
+      error: "No se pudo vaciar la papelera.",
     });
 
     if (params.documentId) {
@@ -105,7 +105,7 @@ export const TrashBox = () => {
       <div
         className="flex h-full items-center justify-center p-4"
         aria-busy="true"
-        aria-label="loading"
+        aria-label="cargando"
       >
         <Spinner size="md" />
       </div>
@@ -120,13 +120,13 @@ export const TrashBox = () => {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           className="bg-secondary h-7 px-2 focus-visible:ring-transparent"
-          placeholder="Filter by page title..."
-          aria-label="Filter by page title"
+          placeholder="Filtrar por título de página..."
+          aria-label="Filtrar por título de página"
         />
         {documents.length > 0 && (
           <ConfirmModal onConfirm={onEmptyTrash}>
             <div>
-              <ActionTooltip label="Empty trash">
+              <ActionTooltip label="Vaciar papelera">
                 <div
                   role="button"
                   className="rounded-sm p-2 hover:bg-neutral-200 dark:hover:bg-neutral-600"
@@ -142,13 +142,13 @@ export const TrashBox = () => {
       <div className="mt-2 px-1 pb-1">
         {documents.length === 0 ? (
           <p className="text-muted-foreground pb-2 text-center text-xs">
-            Trash is empty
+            La papelera está vacía
             <Coffee className="mb-1 ml-1 inline-block size-4" />
           </p>
         ) : (
           filteredDocuments?.length === 0 && (
             <p className="text-muted-foreground pb-2 text-center text-xs">
-              No documents found.
+              No se encontraron documentos.
             </p>
           )
         )}
@@ -159,25 +159,25 @@ export const TrashBox = () => {
               role="button"
               onClick={() => onClick(document.id)}
               className="text-primary hover:bg-primary/5 flex w-full items-center justify-between rounded-sm text-sm"
-              aria-label="Document"
+              aria-label="Documento"
             >
               <span className="truncate pl-2">{document.title}</span>
               <div className="flex items-center">
-                <ActionTooltip label="Restore page">
+                <ActionTooltip label="Restaurar página">
                   <button
                     onClick={(e) => onRestore(e, document.id)}
                     className="rounded-sm p-2 hover:bg-neutral-200 dark:hover:bg-neutral-600"
-                    aria-label="Restore Document"
+                    aria-label="Restaurar documento"
                   >
                     <Undo className="text-muted-foreground h-4 w-4" />
                   </button>
                 </ActionTooltip>
                 <ConfirmModal onConfirm={() => onRemove(document.id)}>
                   <div>
-                    <ActionTooltip label="Delete forever">
+                    <ActionTooltip label="Eliminar para siempre">
                       <button
                         className="rounded-sm p-2 hover:bg-neutral-200 dark:hover:bg-neutral-600"
-                        aria-label="Delete Permanently"
+                        aria-label="Eliminar permanentemente"
                       >
                         <Trash className="text-muted-foreground h-4 w-4" />
                       </button>

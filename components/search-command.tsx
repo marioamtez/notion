@@ -56,7 +56,7 @@ export const SearchCommand = () => {
 
   return (
     <CommandDialog open={isOpen} onOpenChange={onClose}>
-      <DialogTitle hidden>Search Documents</DialogTitle>
+      <DialogTitle hidden>Buscar documentos</DialogTitle>
       <Command
         loop
         filter={(value, search) => {
@@ -66,10 +66,10 @@ export const SearchCommand = () => {
           return 0;
         }}
       >
-        <CommandInput placeholder={`Search ${fullName}'s Zotion..`} />
+        <CommandInput placeholder={`Buscar en el Notion de ${fullName}..`} />
         <CommandList>
-          <CommandEmpty>No results found.</CommandEmpty>
-          <CommandGroup heading="Documents" className="pb-1">
+          <CommandEmpty>No se encontraron resultados.</CommandEmpty>
+          <CommandGroup heading="Documentos" className="pb-1">
             {documents?.map((document) => (
               <CommandItem
                 key={document.id}

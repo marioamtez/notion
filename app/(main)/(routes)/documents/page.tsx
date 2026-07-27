@@ -18,14 +18,14 @@ const DocumentsPage = () => {
   const { mutateAsync: create } = useCreateDocument();
 
   const onCreate = () => {
-    const promise = create({ title: "Untitled" }).then((doc) =>
+    const promise = create({ title: "Sin título" }).then((doc) =>
       router.push(`/documents/${doc.id}`),
     );
 
     toast.promise(promise, {
-      loading: "Creating a new note....",
-      success: "New note created!",
-      error: "Failed to create a new note.",
+      loading: "Creando una nota nueva....",
+      success: "¡Nota creada!",
+      error: "No se pudo crear la nota.",
     });
   };
 
@@ -48,11 +48,11 @@ const DocumentsPage = () => {
         className="hidden size-75 dark:block"
       />
       <h2 className="text-lg font-medium">
-        Welcome to {firstName}&apos;s Zotion
+        Bienvenido al Notion de {firstName}
       </h2>
       <Button onClick={onCreate}>
         <PlusCircle className="mr-2 h-4 w-4" />
-        Create a note
+        Crear una nota
       </Button>
     </div>
   );

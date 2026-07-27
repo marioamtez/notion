@@ -24,9 +24,9 @@ const Error = () => {
         priority
         className="hidden size-75 dark:block"
       />
-      <h2 className="text-xl font-medium">Something went wrong!</h2>
+      <h2 className="text-xl font-medium">Algo ha ido mal</h2>
       <Button asChild>
-        <Link href="/documents">Go back</Link>
+        <Link href="/documents">Volver</Link>
       </Button>
     </div>
   );

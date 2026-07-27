@@ -41,7 +41,7 @@ export const Toolbar = ({ initialData, preview, editorFont }: ToolbarProps) => {
   const disableInput = () => {
     setIsEditing(false);
     if (value === "") {
-      setValue(initialData.title || "Untitled");
+      setValue(initialData.title || "Sin título");
     }
   };
 
@@ -57,7 +57,7 @@ export const Toolbar = ({ initialData, preview, editorFont }: ToolbarProps) => {
     const timer = setTimeout(() => {
       update({
         id: initialData.id,
-        title: value || "Untitled",
+        title: value || "Sin título",
       });
     }, 400);
 
@@ -73,7 +73,7 @@ export const Toolbar = ({ initialData, preview, editorFont }: ToolbarProps) => {
       event.preventDefault();
       update({
         id: initialData.id,
-        title: value || "Untitled",
+        title: value || "Sin título",
       });
       setTimeout(() => {
         inputRef.current?.blur();
@@ -139,7 +139,7 @@ export const Toolbar = ({ initialData, preview, editorFont }: ToolbarProps) => {
               size="sm"
             >
               <Smile className="mr-2 h-4 w-4" />
-              Add icon
+              Añadir icono
             </Button>
           </IconPicker>
         )}
@@ -151,14 +151,14 @@ export const Toolbar = ({ initialData, preview, editorFont }: ToolbarProps) => {
             size="sm"
           >
             <ImageIcon className="mr-2 h-4 w-4" />
-            Add Cover
+            Añadir portada
           </Button>
         )}
       </div>
 
       <TextareaAutosize
         ref={inputRef}
-        placeholder="Untitled"
+        placeholder="Sin título"
         spellCheck="false"
         onBlur={disableInput}
         onFocus={() => setIsEditing(true)}

@@ -15,7 +15,7 @@ export const Title = ({ initialData }: TitleProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const { mutateAsync: update } = useUpdateDocument();
 
-  const [title, setTitle] = useState(initialData.title || "Untitled");
+  const [title, setTitle] = useState(initialData.title || "Sin título");
   const [isEditing, setIsEditing] = useState(false);
 
   const enableInput = () => {
@@ -35,7 +35,7 @@ export const Title = ({ initialData }: TitleProps) => {
     setTitle(event.target.value);
     update({
       id: initialData.id,
-      title: event.target.value || "Untitled",
+      title: event.target.value || "Sin título",
     });
   };
 

@@ -79,7 +79,7 @@ export const Cover = ({ url, preview }: CoverImageProps) => {
             size="sm"
           >
             <ImageIcon className="mr-2 h-4 w-4" />
-            Change cover
+            Cambiar portada
           </Button>
           <Button
             onClick={onRemove}
@@ -93,7 +93,7 @@ export const Cover = ({ url, preview }: CoverImageProps) => {
             ) : (
               <>
                 <X className="mr-2 h-4 w-4" />
-                Remove
+                Quitar
               </>
             )}
           </Button>
@@ -110,11 +110,11 @@ export const Cover = ({ url, preview }: CoverImageProps) => {
             <DropdownMenuContent align="end" alignOffset={7} sideOffset={5}>
               <DropdownMenuItem onClick={() => coverImage.onReplace(url)}>
                 <ImageIcon className="mr-2 h-4 w-4" />
-                Change cover
+                Cambiar portada
               </DropdownMenuItem>
               <DropdownMenuItem onClick={onRemove} disabled={isRemoving}>
                 <X className="mr-2 h-4 w-4" />
-                Remove
+                Quitar
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

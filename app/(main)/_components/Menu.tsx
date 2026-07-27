@@ -52,9 +52,9 @@ export const Menu = ({ documentId }: MenuProps) => {
     const promise = archive({ id: documentId });
 
     toast.promise(promise, {
-      loading: "Moving to trash...",
-      success: "Note moved to trash!",
-      error: "Failed to archive note.",
+      loading: "Moviendo a la papelera...",
+      success: "¡Nota movida a la papelera!",
+      error: "No se pudo archivar la nota.",
     });
   };
 
@@ -81,9 +81,9 @@ export const Menu = ({ documentId }: MenuProps) => {
 
   return (
     <DropdownMenu>
-      <ActionTooltip label="Page actions">
+      <ActionTooltip label="Acciones de página">
         <DropdownMenuTrigger asChild>
-          <Button size="sm" variant="ghost" aria-label="Page actions">
+          <Button size="sm" variant="ghost" aria-label="Acciones de página">
             <MoreHorizontal className="h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>
@@ -95,19 +95,19 @@ export const Menu = ({ documentId }: MenuProps) => {
         forceMount
       >
         <MenuToggleItem
-          label="Small text"
+          label="Texto pequeño"
           icon={AArrowDown}
           checked={isSmallText}
           onChange={onSmallTextChange}
         />
         <MenuToggleItem
-          label="Full width"
+          label="Ancho completo"
           icon={Maximize2}
           checked={isFullWidth}
           onChange={onFullWidthChange}
         />
         <MenuToggleItem
-          label="Show table of contents"
+          label="Mostrar tabla de contenidos"
           icon={TableOfContents}
           checked={toggleToc}
           onChange={onTocChange}
@@ -115,37 +115,36 @@ export const Menu = ({ documentId }: MenuProps) => {
         <DropdownMenuSeparator className="mx-1.5" />
         <DropdownMenuItem onClick={settings.onOpen}>
           <Settings className="mr-2 h-4 w-4" />
-          Settings
+          Ajustes
         </DropdownMenuItem>
         <DropdownMenuItem onClick={onArchive}>
           <Trash className="mr-2 h-4 w-4" />
-          Move to Trash
+          Mover a la papelera
         </DropdownMenuItem>
         <DropdownMenuSeparator className="mx-1.5" />
         <div className="text-muted-foreground/70 space-y-0.5 p-2 text-[.6875rem]">
           <p>
-            Word count: {words.wordCount}{" "}
-            {words.wordCount === 1 ? "word" : "words"}
+            {words.wordCount}{" "}
+            {words.wordCount === 1 ? "palabra" : "palabras"}
           </p>
           <p>
-            Last edited on{" "}
+            Última edición el{" "}
             {document
               ? new Date(
                   document.updated_at ?? document.created_at,
-                ).toLocaleString("en-US", {
+                ).toLocaleString("es-ES", {
                   month: "short",
                   day: "numeric",
                   year: "numeric",
                   hour: "2-digit",
                   minute: "2-digit",
-                  hour12: true,
                 })
               : "..."}
           </p>
           <p>
-            Created on{" "}
+            Creado el{" "}
             {document
-              ? new Date(document.created_at).toLocaleString("en-US", {
+              ? new Date(document.created_at).toLocaleString("es-ES", {
                   month: "short",
                   day: "numeric",
                   year: "numeric",
@@ -182,7 +181,7 @@ const MenuToggleItem = ({
   >
     <div className="flex items-center justify-between gap-1">
       <Icon
-        className={`mr-2 h-4 w-4 ${label === "Full width" ? "rotate-45" : " "}`}
+        className={`mr-2 h-4 w-4 ${label === "Ancho completo" ? "rotate-45" : " "}`}
       />
       {label}
     </div>

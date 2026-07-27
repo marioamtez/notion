@@ -19,9 +19,9 @@ export const FavoritesList = ({ navDrawer }: { navDrawer?: boolean }) => {
   const onToggleFavorite = (id: string) => {
     const promise = toggleFavorite({ id });
     toast.promise(promise, {
-      loading: "Updating favorites...",
-      success: "Favorites updated!",
-      error: "Failed to update favorites.",
+      loading: "Actualizando favoritos...",
+      success: "¡Favoritos actualizados!",
+      error: "No se pudieron actualizar los favoritos.",
     });
   };
 

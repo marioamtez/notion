@@ -47,8 +47,8 @@ export const Navbar = ({ isCollapsed, onResetWidth }: NavbarProps) => {
     <>
       <nav className="bg-background dark:bg-dark flex w-full items-center gap-x-2 px-3 py-2">
         {isCollapsed && (
-          <ActionTooltip label="Open sidebar (Ctrl + \)">
-            <button aria-label="Menu" onClick={onResetWidth}>
+          <ActionTooltip label="Abrir la barra lateral (Ctrl + \)">
+            <button aria-label="Menú" onClick={onResetWidth}>
               <MenuIcon className="text-muted-foreground h-6 w-6" />
             </button>
           </ActionTooltip>
@@ -58,12 +58,12 @@ export const Navbar = ({ isCollapsed, onResetWidth }: NavbarProps) => {
           <div className="flex shrink-0 items-center">
             <Publish initialData={document} />
             <ActionTooltip
-              label={document.is_favorite ? "Unfavorite" : "Favorite"}
+              label={document.is_favorite ? "Quitar de favoritos" : "Añadir a favoritos"}
             >
               <Button
                 variant="ghost"
                 onClick={onToggleFavorite}
-                aria-label={document.is_favorite ? "Unfavorite" : "Favorite"}
+                aria-label={document.is_favorite ? "Quitar de favoritos" : "Añadir a favoritos"}
               >
                 <Star
                   className={cn(

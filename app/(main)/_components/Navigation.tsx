@@ -208,14 +208,14 @@ const Navigation = () => {
   };
 
   const handleCreate = () => {
-    const promise = create({ title: "Untitled" }).then((doc) =>
+    const promise = create({ title: "Sin título" }).then((doc) =>
       router.push(`/documents/${doc.id}`),
     );
 
     toast.promise(promise, {
-      loading: "Creating a new note....",
-      success: "New note created.",
-      error: "Failed to create a note.",
+      loading: "Creando una nota nueva....",
+      success: "Nota creada.",
+      error: "No se pudo crear la nota.",
     });
   };
 
@@ -229,11 +229,11 @@ const Navigation = () => {
           isMobile && "w-0",
         )}
       >
-        <ActionTooltip label="Close sidebar (Ctrl + \)">
+        <ActionTooltip label="Cerrar la barra lateral (Ctrl + \)">
           <div
             onClick={collapse}
             role="button"
-            aria-label="Close sidebar"
+            aria-label="Cerrar la barra lateral"
             className={cn(
               "text-muted-foreground absolute top-3 right-2 h-6 w-6 rounded-sm opacity-0 transition group-hover/sidebar:opacity-100 hover:bg-neutral-300 dark:hover:bg-neutral-600",
               isMobile && "opacity-100",
@@ -245,12 +245,12 @@ const Navigation = () => {
         <div>
           <UserItem />
           <Item
-            label="Search"
+            label="Buscar"
             icon={Search}
             onClick={search.onOpen}
             shortcut="Ctrl + K"
           />
-          <Item label="Settings" icon={Settings} onClick={settings.onOpen} />
+          <Item label="Ajustes" icon={Settings} onClick={settings.onOpen} />
           {isAdmin && (
             <Item
               label="Usuarios"
@@ -258,7 +258,7 @@ const Navigation = () => {
               onClick={() => router.push("/admin/users")}
             />
           )}
-          <Item onClick={handleCreate} label="New page" icon={PlusCircle} />
+          <Item onClick={handleCreate} label="Nueva página" icon={PlusCircle} />
         </div>
         <div className="mt-4">
           <div>
@@ -266,16 +266,16 @@ const Navigation = () => {
               <FavoritesList />
               <div>
                 <p className="text-muted-foreground/60 px-3 py-1 text-xs font-medium">
-                  Notes
+                  Notas
                 </p>
                 <DocumentList />
               </div>
             </ScrollableList>
           </div>
-          <Item onClick={handleCreate} icon={Plus} label="Add a page" />
+          <Item onClick={handleCreate} icon={Plus} label="Añadir página" />
           <Popover>
             <PopoverTrigger className="mt-3 w-full">
-              <Item label="Trash" icon={Trash} />
+              <Item label="Papelera" icon={Trash} />
             </PopoverTrigger>
             <PopoverContent
               side={isMobile ? "bottom" : "right"}
@@ -317,7 +317,7 @@ const Navigation = () => {
             )}
           >
             {isCollapsed && (
-              <ActionTooltip label="Open sidebar (Ctrl + \)">
+              <ActionTooltip label="Abrir la barra lateral (Ctrl + \)">
                 <button onClick={resetWidth}>
                   <MenuIcon className="text-muted-foreground h-6 w-6" />
                 </button>

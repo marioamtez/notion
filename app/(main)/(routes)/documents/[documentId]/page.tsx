@@ -42,7 +42,7 @@ const DocumentIdPage = ({ params }: DocumentIdPageProps) => {
     const defaultFavicon =
       resolvedTheme === "dark" ? "/logo-dark.svg" : "/logo.svg";
 
-    window.document.title = `${doc.title || "Untitled"} | Mbrand Notion`;
+    window.document.title = `${doc.title || "Sin título"} | Mbrand Notion`;
 
     const link = window.document.querySelector(
       "link[rel~='icon']",
@@ -98,7 +98,7 @@ const DocumentIdPage = ({ params }: DocumentIdPageProps) => {
   }
 
   if (doc === null) {
-    return <div>Not found</div>;
+    return <div>No encontrado</div>;
   }
 
   return (

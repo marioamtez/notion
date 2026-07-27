@@ -13,6 +13,7 @@ import {
 } from "@blocknote/core";
 import { useCreateBlockNote } from "@blocknote/react";
 import { BlockNoteView } from "@blocknote/mantine";
+import { es as blockNoteEs } from "@blocknote/core/locales";
 import { useTheme } from "next-themes";
 import { useEdgeStore } from "@/lib/edgestore";
 import { codeBlockOptions } from "@blocknote/code-block";
@@ -139,6 +140,7 @@ const Editor = ({
       : undefined,
     uploadFile: handleUpload,
     schema,
+    dictionary: blockNoteEs,
     tables: {
       splitCells: true,
       cellBackgroundColor: true,

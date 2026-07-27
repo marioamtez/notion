@@ -52,7 +52,7 @@ const DocumentIdPage = ({ params }: DocumentIdPageProps) => {
   }
 
   if (document === null) {
-    return <div>Not found</div>;
+    return <div>No encontrado</div>;
   }
 
   return (

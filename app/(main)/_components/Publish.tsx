@@ -36,9 +36,9 @@ export const Publish = ({ initialData }: PublishProps) => {
     }).finally(() => setIsSubmitting(false));
 
     toast.promise(promise, {
-      loading: "Publishing...",
-      success: "Note published!",
-      error: "Failed to publish note.",
+      loading: "Publicando...",
+      success: "¡Nota publicada!",
+      error: "No se pudo publicar la nota.",
     });
   };
 
@@ -51,9 +51,9 @@ export const Publish = ({ initialData }: PublishProps) => {
     }).finally(() => setIsSubmitting(false));
 
     toast.promise(promise, {
-      loading: "Unpublishing...",
-      success: "Note unpublished",
-      error: "Failed to unpublish note.",
+      loading: "Despublicando...",
+      success: "Nota despublicada",
+      error: "No se pudo despublicar la nota.",
     });
   };
 
@@ -72,13 +72,13 @@ export const Publish = ({ initialData }: PublishProps) => {
         <Button
           size="sm"
           variant="ghost"
-          aria-label={initialData.is_published ? "Published" : "Publish"}
-          title={initialData.is_published ? "Published" : ""}
+          aria-label={initialData.is_published ? "Publicado" : "Publicar"}
+          title={initialData.is_published ? "Publicado" : ""}
         >
           {initialData.is_published ? (
             <Globe className="h-4 w-4 text-sky-500" />
           ) : (
-            <span className="text-sm">Publish</span>
+            <span className="text-sm">Publicar</span>
           )}
         </Button>
       </PopoverTrigger>
@@ -88,7 +88,7 @@ export const Publish = ({ initialData }: PublishProps) => {
             <div className="flex items-center gap-x-2">
               <Globe className="h-4 w-4 animate-pulse text-sky-500" />
               <p className="text-xs font-medium text-sky-500">
-                This note is live on the web.
+                Esta nota está publicada en la web.
               </p>
             </div>
             <div className="flex items-center">
@@ -115,15 +115,15 @@ export const Publish = ({ initialData }: PublishProps) => {
               disabled={isSubmitting}
               onClick={onUnpublish}
             >
-              Unpublish
+              Despublicar
             </Button>
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center">
             <Globe className="text-muted-foreground mb-2 h-8 w-8" />
-            <p>Published this note</p>
+            <p>Publica esta nota</p>
             <span className="text-muted-foreground mb-4 text-xs">
-              Share your work with others
+              Comparte tu trabajo con otras personas
             </span>
             <Button
               disabled={isSubmitting}
@@ -131,7 +131,7 @@ export const Publish = ({ initialData }: PublishProps) => {
               className="w-full text-xs"
               size="sm"
             >
-              Publish
+              Publicar
             </Button>
           </div>
         )}

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono, Lora } from "next/font/google";
+import { JetBrains_Mono, Lora } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 
 import { ThemeProvider } from "@/components/providers/theme-provider";
@@ -8,7 +9,32 @@ import { ModalProvider } from "@/components/providers/modal-provider";
 import { EdgeStoreProvider } from "@/lib/edgestore";
 import { ToasterProvider } from "@/components/providers/toaster-provider";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+const mozillaText = localFont({
+  src: [
+    {
+      path: "../public/MozillaText-ExtraLight.ttf",
+      weight: "200",
+      style: "normal",
+    },
+    {
+      path: "../public/MozillaText-Regular.ttf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../public/MozillaText-Medium.ttf",
+      weight: "500",
+      style: "normal",
+    },
+  ],
+  variable: "--font-mozilla-text",
+});
+const mozillaHeadline = localFont({
+  src: "../public/MozillaHeadline-Light.ttf",
+  weight: "300",
+  style: "normal",
+  variable: "--font-mozilla-headline",
+});
 const lora = Lora({ subsets: ["latin"], variable: "--font-lora" });
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
@@ -18,20 +44,7 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "Mbrand Notion",
   description: "El Notion de Mbrand",
-  icons: {
-    icon: [
-      {
-        media: "(prefers-color-scheme: light)",
-        url: "/logo.svg",
-        href: "/logo.svg",
-      },
-      {
-        media: "(prefers-color-scheme: dark)",
-        url: "/logo-dark.svg",
-        href: "/logo-dark.svg",
-      },
-    ],
-  },
+  icons: { icon: [] },
 };
 
 export default function RootLayout({
@@ -42,7 +55,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${inter.className} ${inter.variable} ${lora.variable} ${jetbrainsMono.variable}`}
+        className={`${mozillaText.className} ${mozillaText.variable} ${mozillaHeadline.variable} ${lora.variable} ${jetbrainsMono.variable}`}
       >
         <QueryProvider>
           <EdgeStoreProvider>

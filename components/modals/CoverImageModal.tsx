@@ -75,7 +75,7 @@ export const CoverImageModal = () => {
       const files = e.dataTransfer?.files;
       if (files?.[0]) {
         if (!files[0].type.startsWith("image/")) {
-          toast.error("Only image files are allowed.");
+          toast.error("Solo se permiten archivos de imagen.");
           return;
         }
         await onChange(files[0]);
@@ -136,22 +136,22 @@ export const CoverImageModal = () => {
   return (
     <Dialog open={coverImage.isOpen} onOpenChange={coverImage.onClose}>
       <DialogTitle>
-        <span className="sr-only">Change Cover Image</span>
+        <span className="sr-only">Cambiar imagen de portada</span>
       </DialogTitle>
       <DialogContent className="dark:bg-dark">
         <DialogHeader>
-          <h2 className="text-center text-lg font-semibold">Cover Image</h2>
+          <h2 className="text-center text-lg font-semibold">Imagen de portada</h2>
         </DialogHeader>
         <DialogDescription className="sr-only">
-          Upload a cover image or choose a color for your document.
+          Sube una imagen de portada o elige un color para tu documento.
         </DialogDescription>
         <Tabs defaultValue="upload">
           <TabsList className="w-full">
             <TabsTrigger value="upload" className="flex-1">
-              Upload
+              Subir
             </TabsTrigger>
             <TabsTrigger value="colors" className="flex-1">
-              Colors
+              Colores
             </TabsTrigger>
           </TabsList>
           <TabsContent value="upload">
