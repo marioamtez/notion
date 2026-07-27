@@ -1,0 +1,8 @@
+[
+  {"id":"l1","name":"Agéntica","color":"#FF6B6B","order":1,"description":"Inteligencia artificial que actúa, decide y aprende de forma autónoma.","palabras":["Inteligencia Artificial","Quantum"]},
+  {"id":"l2","name":"Autónoma","color":"#4ECDC4","order":2,"description":"Máquinas que transforman la producción y los servicios.","palabras":["Robótica","Automatizaciones"]},
+  {"id":"l3","name":"Líquida","color":"#96CEB4","order":3,"description":"Cómo fluye el capital hacia las empresas del futuro.","palabras":["Financiación","Venture Corporate"]},
+  {"id":"l4","name":"Consciente","color":"#FFEAA7","order":4,"description":"Propósito y responsabilidad como motor de negocio.","palabras":["Impacto Social","Talento"]},
+  {"id":"l5","name":"Auténtica","color":"#FF8C69","order":5,"description":"El valor invisible que mueve empresas.","palabras":["Marca","Intangibles","Propósito"]},
+  {"id":"l6","name":"Modular","color":"#87CEEB","order":6,"description":"Nuevos modelos de liderazgo y desempeño.","palabras":["Management","Organizacional"]}
+]

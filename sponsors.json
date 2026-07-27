@@ -1,0 +1,4 @@
+[
+  {"id":"sp1","name":"Patrocinador Principal","logo":"","url":"","level":"Principal","order":1},
+  {"id":"sp2","name":"Patrocinador Promotor","logo":"","url":"","level":"Promotor","order":2}
+]

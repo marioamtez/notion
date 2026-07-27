@@ -1,0 +1,4 @@
+[
+  {"id":"e1","title":"Networking VIP","category":"Networking","description":"Sesiones de networking segmentado con acceso restringido a decisores.","price":null,"available":true,"order":1},
+  {"id":"e2","title":"Meets 1:1","category":"Negocio","description":"Sistema de reuniones uno a uno con la aplicación The Officer Crew.","price":null,"available":true,"order":2}
+]
