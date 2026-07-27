@@ -161,6 +161,13 @@
     font-size: var(--editor-font-size);
   }
 
+  .bn-editor .bn-block-content,
+  .bn-editor [data-content-type="table"] td > p,
+  .bn-editor [data-content-type="table"] th > p {
+    position: relative;
+    top: 2px;
+  }
+
   .bn-color-picker-dropdown {
     top: -110px !important;
   }
