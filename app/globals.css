@@ -165,7 +165,7 @@
   .bn-editor [data-content-type="table"] td > p,
   .bn-editor [data-content-type="table"] th > p {
     position: relative;
-    top: 2px;
+    top: 4px;
   }
 
   .bn-color-picker-dropdown {
