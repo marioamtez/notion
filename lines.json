@@ -1,8 +1,81 @@
 [
-  {"id":"l1","name":"Agéntica","color":"#FF6B6B","order":1,"description":"Inteligencia artificial que actúa, decide y aprende de forma autónoma.","palabras":["Inteligencia Artificial","Quantum"]},
-  {"id":"l2","name":"Autónoma","color":"#4ECDC4","order":2,"description":"Máquinas que transforman la producción y los servicios.","palabras":["Robótica","Automatizaciones"]},
-  {"id":"l3","name":"Líquida","color":"#96CEB4","order":3,"description":"Cómo fluye el capital hacia las empresas del futuro.","palabras":["Financiación","Venture Corporate"]},
-  {"id":"l4","name":"Consciente","color":"#FFEAA7","order":4,"description":"Propósito y responsabilidad como motor de negocio.","palabras":["Impacto Social","Talento"]},
-  {"id":"l5","name":"Auténtica","color":"#FF8C69","order":5,"description":"El valor invisible que mueve empresas.","palabras":["Marca","Intangibles","Propósito"]},
-  {"id":"l6","name":"Modular","color":"#87CEEB","order":6,"description":"Nuevos modelos de liderazgo y desempeño.","palabras":["Management","Organizacional"]}
+  {
+    "id": "l1",
+    "nombre": "Agéntica",
+    "color": "#3B5BDB",
+    "orden": 1,
+    "descripcion": "Ponencias y mesas redondas de líderes.",
+    "palabras": [
+      "Inteligencia Artificial",
+      "Agentes IA"
+    ]
+  },
+  {
+    "id": "l2",
+    "nombre": "Autónoma",
+    "color": "#E8590C",
+    "orden": 2,
+    "descripcion": "Robótica y automatización aplicada.",
+    "palabras": [
+      "Robótica",
+      "Automatización"
+    ]
+  },
+  {
+    "id": "l3",
+    "nombre": "Líquida",
+    "color": "#F59F00",
+    "orden": 3,
+    "descripcion": "Financiación y venture corporativo.",
+    "palabras": [
+      "Financiación",
+      "Venture Corporate"
+    ]
+  },
+  {
+    "id": "l4",
+    "nombre": "Consciente",
+    "color": "#087F5B",
+    "orden": 4,
+    "descripcion": "Impacto social y gestión del talento.",
+    "palabras": [
+      "Impacto Social",
+      "Talento"
+    ]
+  },
+  {
+    "id": "l5",
+    "nombre": "Auténtica",
+    "color": "#2F9E44",
+    "orden": 5,
+    "descripcion": "Marca, intangibles y propósito.",
+    "palabras": [
+      "Marca",
+      "Intangibles",
+      "Propósito"
+    ]
+  },
+  {
+    "id": "l6",
+    "nombre": "Modular",
+    "color": "#C92A2A",
+    "orden": 6,
+    "descripcion": "Management y diseño organizacional.",
+    "palabras": [
+      "Management",
+      "Organizacional"
+    ]
+  },
+  {
+    "id": "l7",
+    "nombre": "Las Suertes",
+    "color": "#7048E8",
+    "orden": 7,
+    "descripcion": "Call for demo — startup & tecnología.",
+    "palabras": [
+      "Demo Show",
+      "Startup",
+      "Tecnología"
+    ]
+  }
 ]
