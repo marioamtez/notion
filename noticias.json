@@ -1,10 +1,38 @@
 [
   {
     "id": "n1",
-    "title": "Undersummit se presenta en Logroño",
-    "date": "2025-09-10",
-    "excerpt": "El 10 de septiembre celebramos nuestra primera parada del roadshow en Bodegas Franco-Españolas.",
+    "titulo": "Undersummit se presenta en Logroño",
+    "fecha": "2025-09-10",
+    "extracto": "El 10 de septiembre celebramos nuestra primera parada del roadshow en Bodegas Franco-Españolas.",
     "slug": "roadshow-logrono",
-    "image": ""
+    "imagen": "",
+    "publicado": true
+  },
+  {
+    "id": "n2",
+    "titulo": "Undersummit se presenta en Zaragoza",
+    "fecha": "2025-10-15",
+    "extracto": "Segunda parada del roadshow en Zaragoza. Fecha y sede por confirmar.",
+    "slug": "roadshow-zaragoza",
+    "imagen": "",
+    "publicado": true
+  },
+  {
+    "id": "n3",
+    "titulo": "Abre el Call for Demo",
+    "fecha": "2025-11-01",
+    "extracto": "Presenta tu startup en Las Suertes, el demo show del Undersummit.",
+    "slug": "call-for-demo",
+    "imagen": "",
+    "publicado": true
+  },
+  {
+    "id": "n4",
+    "titulo": "Primeros speakers confirmados",
+    "fecha": "2025-12-01",
+    "extracto": "Revelamos los primeros nombres de la edición Madrid 2027.",
+    "slug": "primeros-speakers",
+    "imagen": "",
+    "publicado": true
   }
 ]
