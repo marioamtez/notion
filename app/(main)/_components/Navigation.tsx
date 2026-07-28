@@ -2,7 +2,8 @@
 
 import React, { ComponentRef, useEffect, useRef, useState } from "react";
 import { useMediaQuery } from "usehooks-ts";
-import { useCreateDocument } from "@/hooks/useDocumentMutations";
+import { useCreateDocument, useCreatePila } from "@/hooks/useDocumentMutations";
+import { useMovePagesModal } from "@/hooks/useMovePagesModal";
 import { useSupabaseUser } from "@/hooks/useSupabaseUser";
 import { ADMIN_EMAILS } from "@/lib/adminEmails";
 import { useParams, usePathname, useRouter } from "next/navigation";
@@ -15,6 +16,7 @@ import { UserItem } from "./UserItem";
 import { toast } from "sonner";
 import {
   ChevronsLeft,
+  Globe,
   MenuIcon,
   Plus,
   PlusCircle,
@@ -55,6 +57,8 @@ const Navigation = () => {
   const prevFocusMode = useRef(focusMode);
 
   const { mutateAsync: create } = useCreateDocument();
+  const { mutateAsync: createPila } = useCreatePila();
+  const movePagesModal = useMovePagesModal();
 
   const isResizingRef = useRef(false);
   const sidebarRef = useRef<ComponentRef<"aside">>(null);
@@ -219,6 +223,19 @@ const Navigation = () => {
     });
   };
 
+  const handleCreatePila = () => {
+    const promise = createPila({ title: "Nueva pila pública" }).then((doc) => {
+      router.push(`/documents/${doc.id}`);
+      movePagesModal.onOpen(doc.id);
+    });
+
+    toast.promise(promise, {
+      loading: "Creando pila pública...",
+      success: "Pila creada.",
+      error: "No se pudo crear la pila.",
+    });
+  };
+
   return (
     <>
       <aside
@@ -259,6 +276,11 @@ const Navigation = () => {
             />
           )}
           <Item onClick={handleCreate} label="Nueva página" icon={PlusCircle} />
+          <Item
+            onClick={handleCreatePila}
+            label="Crear pila pública"
+            icon={Globe}
+          />
         </div>
         <div className="mt-4">
           <div>

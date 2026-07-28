@@ -106,6 +106,44 @@ export async function insertDocument(
   return data;
 }
 
+export async function insertPila(
+  supabase: SupabaseClient,
+  userId: string,
+  title: string,
+): Promise<Document> {
+  const { data, error } = await supabase
+    .from("documents")
+    .insert({
+      user_id: userId,
+      title,
+      parent_document: null,
+      space_type: "public",
+      full_width: true,
+      show_toc: true,
+      is_archived: false,
+      is_published: false,
+    })
+    .select("*")
+    .single();
+  if (error) throw error;
+  return data;
+}
+
+export async function moveDocument(
+  supabase: SupabaseClient,
+  id: string,
+  newParentId: string,
+): Promise<Document> {
+  const { data, error } = await supabase
+    .from("documents")
+    .update({ parent_document: newParentId, updated_at: new Date().toISOString() })
+    .eq("id", id)
+    .select("*")
+    .single();
+  if (error) throw error;
+  return data;
+}
+
 export type DocumentPatch = Partial<
   Pick<
     Document,

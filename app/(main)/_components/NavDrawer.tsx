@@ -10,6 +10,7 @@ import { UserItem } from "./UserItem";
 import { ActionTooltip } from "@/components/action-tooltip";
 import {
   ChevronsRight,
+  Globe,
   Plus,
   PlusCircle,
   Search,
@@ -21,7 +22,8 @@ import { RootDocumentList } from "./RootDocumentList";
 import { Item } from "./Item";
 import { TrashBox } from "./TrashBox";
 import { toast } from "sonner";
-import { useCreateDocument } from "@/hooks/useDocumentMutations";
+import { useCreateDocument, useCreatePila } from "@/hooks/useDocumentMutations";
+import { useMovePagesModal } from "@/hooks/useMovePagesModal";
 import { useRouter } from "next/navigation";
 import { useSearch } from "@/hooks/useSearch";
 import { useSettings } from "@/hooks/useSettingsModal";
@@ -41,6 +43,8 @@ const NavDrawer = ({ resetWidth, isMobile }: NavDrawerProps) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const { mutateAsync: create } = useCreateDocument();
+  const { mutateAsync: createPila } = useCreatePila();
+  const movePagesModal = useMovePagesModal();
 
   const { isInnerPopoverOpen, setInnerPopoverOpen } = useNavDrawer();
   const open = isEdgeHovered || isDrawerOpen || isInnerPopoverOpen;
@@ -54,6 +58,19 @@ const NavDrawer = ({ resetWidth, isMobile }: NavDrawerProps) => {
       loading: "Creando una nota nueva....",
       success: "Nota creada.",
       error: "No se pudo crear la nota.",
+    });
+  };
+
+  const handleCreatePila = () => {
+    const promise = createPila({ title: "Nueva pila pública" }).then((doc) => {
+      router.push(`/documents/${doc.id}`);
+      movePagesModal.onOpen(doc.id);
+    });
+
+    toast.promise(promise, {
+      loading: "Creando pila pública...",
+      success: "Pila creada.",
+      error: "No se pudo crear la pila.",
     });
   };
 
@@ -115,6 +132,11 @@ const NavDrawer = ({ resetWidth, isMobile }: NavDrawerProps) => {
             <FavoritesList navDrawer />
             <RootDocumentList navDrawer />
             <Item onClick={handleCreate} icon={Plus} label="Añadir página" />
+            <Item
+              onClick={handleCreatePila}
+              icon={Globe}
+              label="Crear pila pública"
+            />
             <Popover onOpenChange={setInnerPopoverOpen}>
               <PopoverTrigger className="mt-3 w-full">
                 <Item label="Papelera" icon={Trash} />

@@ -10,6 +10,8 @@ import {
   deleteAllArchived,
   deleteDocument,
   insertDocument,
+  insertPila,
+  moveDocument,
   reorderDocuments,
   restoreDocument,
   toggleFavoriteDocument,
@@ -32,6 +34,37 @@ export const useCreateDocument = () => {
       queryClient.invalidateQueries({
         queryKey: documentKeys.sidebar(doc.parent_document ?? undefined),
       });
+      queryClient.invalidateQueries({ queryKey: documentKeys.search() });
+    },
+  });
+};
+
+export const useCreatePila = () => {
+  const supabase = useSupabaseClient();
+  const { user } = useSupabaseUser();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (args: { title: string }) =>
+      insertPila(supabase, user!.id, args.title),
+    onSuccess: (doc) => {
+      queryClient.setQueryData(documentKeys.detail(doc.id), doc);
+      queryClient.invalidateQueries({ queryKey: documentKeys.sidebarAll });
+      queryClient.invalidateQueries({ queryKey: documentKeys.search() });
+    },
+  });
+};
+
+export const useMoveDocument = () => {
+  const supabase = useSupabaseClient();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (args: { id: string; newParentId: string }) =>
+      moveDocument(supabase, args.id, args.newParentId),
+    onSuccess: (doc) => {
+      queryClient.setQueryData(documentKeys.detail(doc.id), doc);
+      queryClient.invalidateQueries({ queryKey: documentKeys.sidebarAll });
       queryClient.invalidateQueries({ queryKey: documentKeys.search() });
     },
   });

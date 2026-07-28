@@ -12,6 +12,7 @@ import {
 import { useDocument } from "@/hooks/useDocumentQueries";
 import { useSupabaseUser } from "@/hooks/useSupabaseUser";
 import { useShareModal } from "@/hooks/useShareModal";
+import { useMovePagesModal } from "@/hooks/useMovePagesModal";
 import { toast } from "sonner";
 import {
   DropdownMenu,
@@ -77,11 +78,12 @@ export const Item = ({
   const { setInnerPopoverOpen } = useNavDrawer();
   const { user } = useSupabaseUser();
   const shareModal = useShareModal();
+  const movePagesModal = useMovePagesModal();
 
   const { mutateAsync: create } = useCreateDocument();
   const { mutateAsync: archive } = useArchiveDocument();
   const { mutateAsync: restore } = useRestoreDocument();
-  const { mutate: convertSpaceType } = useConvertSpaceType();
+  const { mutateAsync: convertSpaceType } = useConvertSpaceType();
 
   const { data: document } = useDocument(id, { enabled: !!id });
 
@@ -267,15 +269,16 @@ export const Item = ({
               )}
               {isRoot && isOwner && (
                 <DropdownMenuItem
-                  onClick={(e) => {
+                  onClick={async (e) => {
                     e.stopPropagation();
-                    convertSpaceType({
+                    const wasPersonal = document!.space_type === "personal";
+                    await convertSpaceType({
                       id: id!,
-                      spaceType:
-                        document!.space_type === "public"
-                          ? "personal"
-                          : "public",
+                      spaceType: wasPersonal ? "public" : "personal",
                     });
+                    if (wasPersonal) {
+                      movePagesModal.onOpen(id!);
+                    }
                   }}
                 >
                   {document!.space_type === "public" ? (
@@ -289,6 +292,17 @@ export const Item = ({
                       Convertir en pila pública
                     </>
                   )}
+                </DropdownMenuItem>
+              )}
+              {isRoot && isOwner && document!.space_type === "public" && (
+                <DropdownMenuItem
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    movePagesModal.onOpen(id!);
+                  }}
+                >
+                  <Plus className="mr-2 h-4 w-4" />
+                  Añadir páginas...
                 </DropdownMenuItem>
               )}
               {isOwner && (

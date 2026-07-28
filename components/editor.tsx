@@ -13,7 +13,19 @@ import {
 } from "@blocknote/core";
 import { useCreateBlockNote } from "@blocknote/react";
 import { BlockNoteView } from "@blocknote/mantine";
-import { es as blockNoteEs } from "@blocknote/core/locales";
+import { es as blockNoteEsBase } from "@blocknote/core/locales";
+
+const blockNoteEs = {
+  ...blockNoteEsBase,
+  placeholders: {
+    ...blockNoteEsBase.placeholders,
+    heading: "",
+    toggleListItem: "",
+    bulletListItem: "",
+    numberedListItem: "",
+    checkListItem: "",
+  },
+};
 import { useTheme } from "next-themes";
 import { useEdgeStore } from "@/lib/edgestore";
 import { codeBlockOptions } from "@blocknote/code-block";
