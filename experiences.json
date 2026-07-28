@@ -1,56 +1,56 @@
 [
   {
     "id": "e1",
-    "titulo": "Networking VIP",
-    "categoria": "Networking",
-    "descripcion": "Sesiones de networking segmentado con acceso restringido a decisores.",
-    "precio": null,
-    "disponible": true,
-    "orden": 1
+    "title": "Networking VIP",
+    "category": "Networking",
+    "description": "Sesiones de networking segmentado con acceso restringido a decisores.",
+    "price": null,
+    "available": true,
+    "order": 1
   },
   {
     "id": "e2",
-    "titulo": "Meets 1:1",
-    "categoria": "Negocio",
-    "descripcion": "Sistema de reuniones uno a uno con la aplicación The Officer Crew.",
-    "precio": null,
-    "disponible": true,
-    "orden": 2
+    "title": "Meets 1:1",
+    "category": "Negocio",
+    "description": "Sistema de reuniones uno a uno con la aplicación The Officer Crew.",
+    "price": null,
+    "available": true,
+    "order": 2
   },
   {
     "id": "e3",
-    "titulo": "Demo Show — Las Suertes",
-    "categoria": "Demo",
-    "descripcion": "Presenta tu producto ante inversores y directivos de primera línea.",
-    "precio": null,
-    "disponible": true,
-    "orden": 3
+    "title": "Demo Show — Las Suertes",
+    "category": "Demo",
+    "description": "Presenta tu producto ante inversores y directivos de primera línea.",
+    "price": null,
+    "available": true,
+    "order": 3
   },
   {
     "id": "e4",
-    "titulo": "Cena de Ponentes",
-    "categoria": "Exclusivo",
-    "descripcion": "Cena reservada para ponentes y patrocinadores platinum.",
-    "precio": null,
-    "disponible": false,
-    "orden": 4
+    "title": "Cena de Ponentes",
+    "category": "Exclusivo",
+    "description": "Cena reservada para ponentes y patrocinadores platinum.",
+    "price": null,
+    "available": false,
+    "order": 4
   },
   {
     "id": "e5",
-    "titulo": "Workshop: IA en tu empresa",
-    "categoria": "Formación",
-    "descripcion": "Taller práctico de tres horas con expertos en implementación de IA.",
-    "precio": 299,
-    "disponible": true,
-    "orden": 5
+    "title": "Workshop: IA en tu empresa",
+    "category": "Formación",
+    "description": "Taller práctico de tres horas con expertos en implementación de IA.",
+    "price": 299,
+    "available": true,
+    "order": 5
   },
   {
     "id": "e6",
-    "titulo": "Silicon Valley Tour",
-    "categoria": "Exclusivo",
-    "descripcion": "Viaje de dos días a Silicon Valley para patrocinadores Gold y Platinum.",
-    "precio": null,
-    "disponible": true,
-    "orden": 6
+    "title": "Silicon Valley Tour",
+    "category": "Exclusivo",
+    "description": "Viaje de dos días a Silicon Valley para patrocinadores Gold y Platinum.",
+    "price": null,
+    "available": true,
+    "order": 6
   }
 ]
