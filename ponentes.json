@@ -1,13 +1,13 @@
 [
   {
     "id": "s1",
-    "name": "Ponente por confirmar",
-    "role": "",
-    "company": "",
-    "line": "",
-    "featured": true,
+    "nombre": "Ponente por confirmar",
+    "cargo": "",
+    "empresa": "",
+    "linea": "",
+    "contrato": "",
     "bio": "",
-    "photo": "",
+    "foto": "",
     "linkedin": ""
   }
 ]
