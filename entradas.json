@@ -1,0 +1,8 @@
+{
+  "precio_dia": 80,
+  "precio_abono": 120,
+  "precio_eb_dia": 60,
+  "precio_eb_abono": 90,
+  "descuento_pct": 25,
+  "fecha_fin_eb": "2025-10-15"
+}
