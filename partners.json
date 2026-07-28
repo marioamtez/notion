@@ -1,23 +1,26 @@
 [
   {
-    "nombre": "The Officer",
-    "categoria": "Media",
-    "url_logo": "",
+    "id": "pt1",
+    "name": "The Officer",
+    "category": "Media",
+    "logo": "",
     "url": "https://theofficer.es",
-    "orden": 1
+    "order": 1
   },
   {
-    "nombre": "Marketing 4 Ecommerce",
-    "categoria": "Media",
-    "url_logo": "",
+    "id": "pt2",
+    "name": "Marketing 4 Ecommerce",
+    "category": "Media",
+    "logo": "",
     "url": "https://marketing4ecommerce.net",
-    "orden": 2
+    "order": 2
   },
   {
-    "nombre": "Xataka",
-    "categoria": "Media",
-    "url_logo": "",
+    "id": "pt3",
+    "name": "Xataka",
+    "category": "Media",
+    "logo": "",
     "url": "https://xataka.com",
-    "orden": 3
+    "order": 3
   }
 ]
