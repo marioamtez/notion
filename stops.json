@@ -1,3 +1,13 @@
 [
-  {"id":"st1","name":"Parada por confirmar","line":"Agéntica","speaker":"","time":"","location":"","order":1,"description":""}
+  {
+    "id": "st1",
+    "nombre": "Parada por confirmar",
+    "linea": "",
+    "hora": "",
+    "ponente": "",
+    "sala": "",
+    "descripcion": "",
+    "topicos": [],
+    "orden": 1
+  }
 ]
