@@ -1,9 +1,42 @@
 [
   {
     "id": "s1",
-    "nombre": "Ponente por confirmar",
-    "cargo": "",
+    "nombre": "Marco Patuano",
+    "cargo": "CEO",
+    "empresa": "Cellnex",
+    "linea": "",
+    "contrato": "",
+    "bio": "",
+    "foto": "",
+    "linkedin": ""
+  },
+  {
+    "id": "s2",
+    "nombre": "José María Álvarez-Pallete",
+    "cargo": "Investor",
     "empresa": "",
+    "linea": "",
+    "contrato": "",
+    "bio": "",
+    "foto": "",
+    "linkedin": ""
+  },
+  {
+    "id": "s3",
+    "nombre": "José Maria Palomares",
+    "cargo": "Advisor",
+    "empresa": "",
+    "linea": "",
+    "contrato": "",
+    "bio": "",
+    "foto": "",
+    "linkedin": ""
+  },
+  {
+    "id": "s4",
+    "nombre": "Santiago Arredondo",
+    "cargo": "General Manager",
+    "empresa": "Nike",
     "linea": "",
     "contrato": "",
     "bio": "",
