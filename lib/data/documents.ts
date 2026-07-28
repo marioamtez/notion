@@ -17,14 +17,9 @@ export function sortDocuments(documents: Document[]): Document[] {
 
 export async function fetchSidebar(
   supabase: SupabaseClient,
-  userId: string,
   parentId: string | undefined,
 ): Promise<Document[]> {
-  let query = supabase
-    .from("documents")
-    .select("*")
-    .eq("user_id", userId)
-    .eq("is_archived", false);
+  let query = supabase.from("documents").select("*").eq("is_archived", false);
 
   query = parentId
     ? query.eq("parent_document", parentId)
@@ -50,12 +45,10 @@ export async function fetchById(
 
 export async function fetchSearch(
   supabase: SupabaseClient,
-  userId: string,
 ): Promise<Document[]> {
   const { data, error } = await supabase
     .from("documents")
     .select("*")
-    .eq("user_id", userId)
     .eq("is_archived", false)
     .order("created_at", { ascending: false });
   if (error) throw error;
@@ -204,6 +197,21 @@ export async function toggleFavoriteDocument(
   const { data, error } = await supabase
     .rpc("toggle_favorite", { target_id: id })
     .select("*")
+    .single();
+  if (error) throw error;
+  return data as Document;
+}
+
+export async function convertSpaceType(
+  supabase: SupabaseClient,
+  id: string,
+  spaceType: "personal" | "public",
+): Promise<Document> {
+  const { data, error } = await supabase
+    .rpc("convert_document_space_type", {
+      target_id: id,
+      new_space_type: spaceType,
+    })
     .single();
   if (error) throw error;
   return data as Document;

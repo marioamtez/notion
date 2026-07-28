@@ -8,7 +8,7 @@ import { ADMIN_EMAILS } from "@/lib/adminEmails";
 import { useParams, usePathname, useRouter } from "next/navigation";
 
 import { cn } from "@/lib/utils";
-import { DocumentList } from "./DocumentList";
+import { RootDocumentList } from "./RootDocumentList";
 import { Item } from "./Item";
 import { UserItem } from "./UserItem";
 
@@ -264,12 +264,7 @@ const Navigation = () => {
           <div>
             <ScrollableList>
               <FavoritesList />
-              <div>
-                <p className="text-muted-foreground/60 px-3 py-1 text-xs font-medium">
-                  Notas
-                </p>
-                <DocumentList />
-              </div>
+              <RootDocumentList />
             </ScrollableList>
           </div>
           <Item onClick={handleCreate} icon={Plus} label="Añadir página" />

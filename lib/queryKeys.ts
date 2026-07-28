@@ -6,8 +6,13 @@ export const documentKeys = {
   trash: () => ["documents", "trash"] as const,
   favorites: () => ["documents", "favorites"] as const,
   detail: (id: string) => ["documents", "detail", id] as const,
+  shares: (documentId: string) => ["documents", "shares", documentId] as const,
 };
 
 export const userSettingsKeys = {
   detail: (userId: string) => ["userSettings", userId] as const,
+};
+
+export const profileKeys = {
+  list: () => ["profiles", "list"] as const,
 };

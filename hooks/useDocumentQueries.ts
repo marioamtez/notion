@@ -11,6 +11,7 @@ import {
   fetchSidebar,
   fetchTrash,
 } from "@/lib/data/documents";
+import { fetchShares } from "@/lib/data/documentShares";
 
 export const useSidebar = (parentId?: string) => {
   const supabase = useSupabaseClient();
@@ -18,7 +19,7 @@ export const useSidebar = (parentId?: string) => {
 
   return useQuery({
     queryKey: documentKeys.sidebar(parentId),
-    queryFn: () => fetchSidebar(supabase, user!.id, parentId),
+    queryFn: () => fetchSidebar(supabase, parentId),
     enabled: !!user,
   });
 };
@@ -42,7 +43,7 @@ export const useSearchDocuments = () => {
 
   return useQuery({
     queryKey: documentKeys.search(),
-    queryFn: () => fetchSearch(supabase, user!.id),
+    queryFn: () => fetchSearch(supabase),
     enabled: !!user,
   });
 };
@@ -66,5 +67,15 @@ export const useFavorites = () => {
     queryKey: documentKeys.favorites(),
     queryFn: () => fetchFavorites(supabase, user!.id),
     enabled: !!user,
+  });
+};
+
+export const useDocumentShares = (documentId: string | undefined) => {
+  const supabase = useSupabaseClient();
+
+  return useQuery({
+    queryKey: documentKeys.shares(documentId ?? ""),
+    queryFn: () => fetchShares(supabase, documentId!),
+    enabled: !!documentId,
   });
 };

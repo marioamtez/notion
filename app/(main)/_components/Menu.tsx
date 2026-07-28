@@ -6,6 +6,8 @@ import {
   useArchiveDocument,
   useUpdateDocument,
 } from "@/hooks/useDocumentMutations";
+import { useSupabaseUser } from "@/hooks/useSupabaseUser";
+import { useShareModal } from "@/hooks/useShareModal";
 import { toast } from "sonner";
 import {
   DropdownMenu,
@@ -21,6 +23,7 @@ import {
   Settings,
   TableOfContents,
   Trash,
+  Users,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -37,7 +40,9 @@ export const Menu = ({ documentId }: MenuProps) => {
   const router = useRouter();
 
   const settings = useSettings();
+  const shareModal = useShareModal();
   const words = useWordCount();
+  const { user } = useSupabaseUser();
 
   const { data: document } = useDocument(documentId);
   const { mutateAsync: archive } = useArchiveDocument();
@@ -46,6 +51,7 @@ export const Menu = ({ documentId }: MenuProps) => {
   const isFullWidth = document?.full_width ?? true;
   const toggleToc = document?.show_toc ?? true;
   const isSmallText = !!document?.small_text;
+  const isOwner = !!document && !!user && document.user_id === user.id;
 
   const onArchive = () => {
     router.push("/documents");
@@ -117,10 +123,18 @@ export const Menu = ({ documentId }: MenuProps) => {
           <Settings className="mr-2 h-4 w-4" />
           Ajustes
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={onArchive}>
-          <Trash className="mr-2 h-4 w-4" />
-          Mover a la papelera
-        </DropdownMenuItem>
+        {isOwner && (
+          <DropdownMenuItem onClick={() => shareModal.onOpen(documentId)}>
+            <Users className="mr-2 h-4 w-4" />
+            Compartir...
+          </DropdownMenuItem>
+        )}
+        {isOwner && (
+          <DropdownMenuItem onClick={onArchive}>
+            <Trash className="mr-2 h-4 w-4" />
+            Mover a la papelera
+          </DropdownMenuItem>
+        )}
         <DropdownMenuSeparator className="mx-1.5" />
         <div className="text-muted-foreground/70 space-y-0.5 p-2 text-[.6875rem]">
           <p>

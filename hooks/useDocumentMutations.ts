@@ -6,6 +6,7 @@ import { useSupabaseUser } from "@/hooks/useSupabaseUser";
 import { documentKeys } from "@/lib/queryKeys";
 import {
   archiveDocument,
+  convertSpaceType,
   deleteAllArchived,
   deleteDocument,
   insertDocument,
@@ -15,6 +16,7 @@ import {
   updateDocument,
   type DocumentPatch,
 } from "@/lib/data/documents";
+import { addShare, removeShare } from "@/lib/data/documentShares";
 import type { Document } from "@/types/document";
 
 export const useCreateDocument = () => {
@@ -170,6 +172,60 @@ export const useToggleFavoriteDocument = () => {
       queryClient.invalidateQueries({
         queryKey: documentKeys.sidebar(doc.parent_document ?? undefined),
       });
+    },
+  });
+};
+
+export const useConvertSpaceType = () => {
+  const supabase = useSupabaseClient();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (args: { id: string; spaceType: "personal" | "public" }) =>
+      convertSpaceType(supabase, args.id, args.spaceType),
+    onSuccess: (doc) => {
+      queryClient.setQueryData(documentKeys.detail(doc.id), doc);
+      queryClient.invalidateQueries({ queryKey: documentKeys.sidebarAll });
+      queryClient.invalidateQueries({ queryKey: documentKeys.search() });
+    },
+  });
+};
+
+export const useAddShare = () => {
+  const supabase = useSupabaseClient();
+  const { user } = useSupabaseUser();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (args: { documentId: string; userId: string }) =>
+      addShare(supabase, args.documentId, args.userId, user!.id),
+    onSuccess: (_share, args) => {
+      queryClient.invalidateQueries({
+        queryKey: documentKeys.shares(args.documentId),
+      });
+      queryClient.invalidateQueries({
+        queryKey: documentKeys.detail(args.documentId),
+      });
+      queryClient.invalidateQueries({ queryKey: documentKeys.sidebarAll });
+    },
+  });
+};
+
+export const useRemoveShare = () => {
+  const supabase = useSupabaseClient();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (args: { documentId: string; userId: string }) =>
+      removeShare(supabase, args.documentId, args.userId),
+    onSuccess: (_data, args) => {
+      queryClient.invalidateQueries({
+        queryKey: documentKeys.shares(args.documentId),
+      });
+      queryClient.invalidateQueries({
+        queryKey: documentKeys.detail(args.documentId),
+      });
+      queryClient.invalidateQueries({ queryKey: documentKeys.sidebarAll });
     },
   });
 };

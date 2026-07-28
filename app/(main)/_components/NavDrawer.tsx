@@ -17,7 +17,7 @@ import {
   Trash,
 } from "lucide-react";
 import { FavoritesList } from "./FavoritesList";
-import { DocumentList } from "./DocumentList";
+import { RootDocumentList } from "./RootDocumentList";
 import { Item } from "./Item";
 import { TrashBox } from "./TrashBox";
 import { toast } from "sonner";
@@ -113,12 +113,7 @@ const NavDrawer = ({ resetWidth, isMobile }: NavDrawerProps) => {
           </div>
           <div className="max-h-[65vh] overflow-y-auto pb-3">
             <FavoritesList navDrawer />
-            <div>
-              <p className="text-muted-foreground/60 px-3 py-1 text-xs font-medium">
-                Notas
-              </p>
-              <DocumentList navDrawer />
-            </div>
+            <RootDocumentList navDrawer />
             <Item onClick={handleCreate} icon={Plus} label="Añadir página" />
             <Popover onOpenChange={setInnerPopoverOpen}>
               <PopoverTrigger className="mt-3 w-full">

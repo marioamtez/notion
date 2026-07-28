@@ -17,6 +17,8 @@ export interface Document {
   show_toc: boolean;
   notion_source_id: string | null;
   created_at: string;
+  space_type: "personal" | "public";
+  is_shared: boolean;
 }
 
 export interface UserSettings {

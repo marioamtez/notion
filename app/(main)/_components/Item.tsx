@@ -5,10 +5,13 @@ import { cn } from "@/lib/utils";
 import { useParams, useRouter } from "next/navigation";
 import {
   useArchiveDocument,
+  useConvertSpaceType,
   useCreateDocument,
   useRestoreDocument,
 } from "@/hooks/useDocumentMutations";
 import { useDocument } from "@/hooks/useDocumentQueries";
+import { useSupabaseUser } from "@/hooks/useSupabaseUser";
+import { useShareModal } from "@/hooks/useShareModal";
 import { toast } from "sonner";
 import {
   DropdownMenu,
@@ -20,13 +23,16 @@ import {
 import {
   ChevronDown,
   ChevronRight,
+  Globe,
   GripVertical,
+  Lock,
   LucideIcon,
   MoreHorizontal,
   Plus,
   Settings,
   Star,
   Trash,
+  Users,
 } from "lucide-react";
 
 import { ActionTooltip } from "@/components/action-tooltip";
@@ -69,12 +75,18 @@ export const Item = ({
   const params = useParams();
 
   const { setInnerPopoverOpen } = useNavDrawer();
+  const { user } = useSupabaseUser();
+  const shareModal = useShareModal();
 
   const { mutateAsync: create } = useCreateDocument();
   const { mutateAsync: archive } = useArchiveDocument();
   const { mutateAsync: restore } = useRestoreDocument();
+  const { mutate: convertSpaceType } = useConvertSpaceType();
 
   const { data: document } = useDocument(id, { enabled: !!id });
+
+  const isOwner = !!document && !!user && document.user_id === user.id;
+  const isRoot = !!document && document.parent_document === null;
 
   const onArchive = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     event.stopPropagation();
@@ -175,6 +187,26 @@ export const Item = ({
             {label}
           </span>
         )}
+        {isRoot && (
+          <ActionTooltip
+            label={
+              document!.space_type === "public"
+                ? "Pila pública: visible para todo Mbrand"
+                : "Espacio personal: solo tú lo ves"
+            }
+          >
+            {document!.space_type === "public" ? (
+              <Globe className="ml-1.5 size-3 shrink-0 text-sky-500" />
+            ) : (
+              <Lock className="text-muted-foreground/50 ml-1.5 size-3 shrink-0" />
+            )}
+          </ActionTooltip>
+        )}
+        {!isRoot && document?.is_shared && (
+          <ActionTooltip label="Compartido con acceso restringido">
+            <Users className="text-muted-foreground/50 ml-1.5 size-3 shrink-0" />
+          </ActionTooltip>
+        )}
       </div>
       {shortcut && (
         <kbd className="bg-muted text-muted-foreground pointer-events-none ml-auto hidden h-5 items-center gap-1 rounded border px-1.5 font-mono text-[.625rem] font-medium opacity-100 select-none md:inline-flex dark:bg-neutral-700">
@@ -211,24 +243,65 @@ export const Item = ({
               side="right"
               forceMount
             >
-              <DropdownMenuItem
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onFavorite?.();
-                }}
-              >
-                <Star
-                  className={cn(
-                    "mr-2 h-4 w-4",
-                    isFavorite && "fill-yellow-400 text-yellow-400",
+              {isOwner && (
+                <DropdownMenuItem
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onFavorite?.();
+                  }}
+                >
+                  <Star
+                    className={cn(
+                      "mr-2 h-4 w-4",
+                      isFavorite && "fill-yellow-400 text-yellow-400",
+                    )}
+                  />
+                  {isFavorite ? "Quitar de favoritos" : "Añadir a favoritos"}
+                </DropdownMenuItem>
+              )}
+              {isOwner && (
+                <DropdownMenuItem onClick={onArchive}>
+                  <Trash className="mr-2 h-4 w-4" />
+                  Eliminar
+                </DropdownMenuItem>
+              )}
+              {isRoot && isOwner && (
+                <DropdownMenuItem
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    convertSpaceType({
+                      id: id!,
+                      spaceType:
+                        document!.space_type === "public"
+                          ? "personal"
+                          : "public",
+                    });
+                  }}
+                >
+                  {document!.space_type === "public" ? (
+                    <>
+                      <Lock className="mr-2 h-4 w-4" />
+                      Convertir en espacio personal
+                    </>
+                  ) : (
+                    <>
+                      <Globe className="mr-2 h-4 w-4" />
+                      Convertir en pila pública
+                    </>
                   )}
-                />
-                {isFavorite ? "Quitar de favoritos" : "Añadir a favoritos"}
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={onArchive}>
-                <Trash className="mr-2 h-4 w-4" />
-                Eliminar
-              </DropdownMenuItem>
+                </DropdownMenuItem>
+              )}
+              {isOwner && (
+                <DropdownMenuItem
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    shareModal.onOpen(id!);
+                  }}
+                >
+                  <Users className="mr-2 h-4 w-4" />
+                  Compartir...
+                </DropdownMenuItem>
+              )}
               <DropdownMenuSeparator />
               <div className="space-y-0.5 p-2 text-[.6875rem]">
                 <p className="text-muted-foreground/70">

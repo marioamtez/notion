@@ -216,3 +216,5 @@ grant execute on function public.archive_document(uuid)   to authenticated;
 grant execute on function public.restore_document(uuid)   to authenticated;
 grant execute on function public.reorder_documents(uuid, uuid[]) to authenticated;
 grant execute on function public.toggle_favorite(uuid)    to authenticated;
+
+-- =Success. No rows returned
