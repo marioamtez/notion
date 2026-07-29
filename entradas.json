@@ -1,4 +1,1 @@
-{
-  "precio_dia": 80,
-  "precio_abono": 120
-}
+{"precio_dia":80,"precio_abono":120,"url_compra":"/tickets","descripcion_dia":"Acceso a las ponencias y actividades de una jornada.","descripcion_abono":"Acceso completo a los dos días + Afterparty."}
