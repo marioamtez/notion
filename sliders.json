@@ -1,32 +1,5 @@
 [
-  {
-    "orden": 1,
-    "titulo": "Logroño for Good",
-    "subtitulo": "La primera parada de nuestro roadshow será Logroño para conversar sobre IA, management y propósito. Conoce los detalles y los ponentes de la cita.",
-    "detalle": "10 de septiembre · 11:30 h · Bodegas Franco-Españolas",
-    "tag_num": "0",
-    "tag_tipo": "Roadshow",
-    "cta_url": "#",
-    "imagen": "assets/metro-train2.webp"
-  },
-  {
-    "orden": 2,
-    "titulo": "Zaragoza for Good",
-    "subtitulo": "Nuestro roadshow hará parada en Zaragoza para abordar el impacto positivo y el propósito de la IA. Conoce los detalles y los ponentes de la cita.",
-    "detalle": "1 de octubre · 11:30h · CEEI Aragón",
-    "tag_num": "0",
-    "tag_tipo": "Roadshow",
-    "cta_url": "#",
-    "imagen": "assets/photo1.webp"
-  },
-  {
-    "orden": 3,
-    "titulo": "Demo Show",
-    "subtitulo": "Participa en nuestro Demo Show y presenta tu empresa, producto o tecnología ante CEOs, managers e inversores. Un espacio para mostrar lo que estás construyendo.",
-    "detalle": "Solicita tu plaza — aforo limitado",
-    "tag_num": "★",
-    "tag_tipo": "Las Suertes",
-    "cta_url": "#",
-    "imagen": "assets/metro-train2.webp"
-  }
+  {"orden":1,"titulo":"Logroño for Good","subtitulo":"La primera parada de nuestro roadshow será Logroño para conversar sobre IA, management y propósito. Conoce los detalles y los ponentes de la cita.","detalle":"10 de septiembre · 11:30 h · Bodegas Franco-Españolas","tag_num":"0","tag_tipo":"Roadshow","cta_url":"/ai-for-good-logrono","imagen":"assets/metro-train2.webp"},
+  {"orden":2,"titulo":"Zaragoza for Good","subtitulo":"Nuestro roadshow hará parada en Zaragoza para abordar el impacto positivo y el propósito de la IA. Conoce los detalles y los ponentes de la cita.","detalle":"1 de octubre · 11:30h · CEEI Aragón","tag_num":"0","tag_tipo":"Roadshow","cta_url":"/ai-for-good-zaragoza","imagen":"assets/photo1.webp"},
+  {"orden":3,"titulo":"Demo Show","subtitulo":"Participa en nuestro Demo Show y presenta tu empresa, producto o tecnología ante CEOs, managers e inversores. Un espacio para mostrar lo que estás construyendo.","detalle":"Solicita tu plaza — aforo limitado","tag_num":"★","tag_tipo":"Las Suertes","cta_url":"/contacto?type=demo","imagen":"assets/metro-train2.webp"}
 ]
