@@ -1,0 +1,58 @@
+[
+  {
+    "id": "m1",
+    "nombre": "Inicio",
+    "url": "/",
+    "orden": 1,
+    "activo": true
+  },
+  {
+    "id": "m2",
+    "nombre": "Tickets",
+    "url": "/pages/tickets.html",
+    "orden": 2,
+    "activo": true
+  },
+  {
+    "id": "m3",
+    "nombre": "Speakers",
+    "url": "/pages/speakers.html",
+    "orden": 3,
+    "activo": true
+  },
+  {
+    "id": "m4",
+    "nombre": "Lines & Stops",
+    "url": "/pages/lines-stops.html",
+    "orden": 4,
+    "activo": true
+  },
+  {
+    "id": "m5",
+    "nombre": "Experiences",
+    "url": "/pages/experiences.html",
+    "orden": 5,
+    "activo": true
+  },
+  {
+    "id": "m6",
+    "nombre": "Sponsors",
+    "url": "/pages/sponsors.html",
+    "orden": 6,
+    "activo": true
+  },
+  {
+    "id": "m7",
+    "nombre": "Partners",
+    "url": "/pages/partners.html",
+    "orden": 7,
+    "activo": true
+  },
+  {
+    "id": "m8",
+    "nombre": "Contacto",
+    "url": "/pages/contacto.html",
+    "orden": 8,
+    "activo": true
+  }
+]
