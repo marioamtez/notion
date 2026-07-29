@@ -1,9 +1,3 @@
 [
-  {
-    "nombre": "Early Bird Lanzamiento",
-    "fecha_inicio": "2025-09-01",
-    "fecha_fin": "2025-10-15",
-    "descuento_pct": 25,
-    "activa": true
-  }
+  {"nombre":"Early Bird","fecha_inicio":"2026-07-01","fecha_fin":"2026-10-31","descuento_pct":25,"activa":true}
 ]
