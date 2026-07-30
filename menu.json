@@ -42,31 +42,17 @@
     "activo": true
   },
   {
-    "id": "m7",
-    "nombre": "Awards",
-    "url": "/awards",
-    "orden": 7,
-    "activo": true
-  },
-  {
     "id": "m8",
     "nombre": "Sponsors",
     "url": "/sponsors",
-    "orden": 8,
-    "activo": true
-  },
-  {
-    "id": "m9",
-    "nombre": "Partners",
-    "url": "/partners",
-    "orden": 9,
+    "orden": 7,
     "activo": true
   },
   {
     "id": "m10",
     "nombre": "Contacto",
     "url": "/contacto",
-    "orden": 10,
+    "orden": 8,
     "activo": true
   }
 ]
