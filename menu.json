@@ -49,6 +49,13 @@
     "activo": true
   },
   {
+    "id": "m11",
+    "nombre": "Noticias",
+    "url": "/noticias",
+    "orden": 7.5,
+    "activo": true
+  },
+  {
     "id": "m10",
     "nombre": "Contacto",
     "url": "/contacto",
