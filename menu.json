@@ -36,7 +36,7 @@
   },
   {
     "id": "m6",
-    "nombre": "Talks",
+    "nombre": "Roadshow",
     "url": "/talks",
     "orden": 6,
     "activo": true
