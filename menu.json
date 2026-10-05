@@ -29,7 +29,7 @@
   },
   {
     "id": "m5",
-    "nombre": "Experiences",
+    "nombre": "Experiencias",
     "url": "/experiences",
     "orden": 5,
     "activo": true
@@ -53,13 +53,15 @@
     "nombre": "Press",
     "url": "/press",
     "orden": 7.5,
-    "activo": true
+    "activo": true,
+    "grupo": "+ Info"
   },
   {
     "id": "m10",
     "nombre": "Contacto",
     "url": "/contacto",
     "orden": 8,
-    "activo": true
+    "activo": true,
+    "grupo": "+ Info"
   }
 ]
