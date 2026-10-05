@@ -29,17 +29,19 @@
   },
   {
     "id": "m5",
-    "nombre": "Experiencias",
+    "nombre": "Ver todas",
     "url": "/experiences",
     "orden": 5,
-    "activo": true
+    "activo": true,
+    "grupo": "Experiencias"
   },
   {
     "id": "m6",
-    "nombre": "Roadshow",
+    "nombre": "Roadshow 2027",
     "url": "/talks",
-    "orden": 6,
-    "activo": true
+    "orden": 5.5,
+    "activo": true,
+    "grupo": "Experiencias"
   },
   {
     "id": "m8",
