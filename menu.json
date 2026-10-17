@@ -65,5 +65,13 @@
     "orden": 8,
     "activo": true,
     "grupo": "+ Info"
+  },
+  {
+    "id": "m14",
+    "nombre": "Preguntas frecuentes",
+    "url": "/preguntas-frecuentes",
+    "orden": 8.5,
+    "activo": true,
+    "grupo": "+ Info"
   }
 ]
