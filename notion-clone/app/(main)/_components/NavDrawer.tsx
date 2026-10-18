@@ -1,0 +1,158 @@
+import { useState } from "react";
+import { cn } from "@/lib/utils";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { useNavDrawer } from "@/hooks/useNavDrawer";
+import { UserItem } from "./UserItem";
+import { ActionTooltip } from "@/components/action-tooltip";
+import {
+  ChevronsRight,
+  Globe,
+  Plus,
+  PlusCircle,
+  Search,
+  Settings,
+  Trash,
+} from "lucide-react";
+import { FavoritesList } from "./FavoritesList";
+import { RootDocumentList } from "./RootDocumentList";
+import { Item } from "./Item";
+import { TrashBox } from "./TrashBox";
+import { toast } from "sonner";
+import { useCreateDocument, useCreatePila } from "@/hooks/useDocumentMutations";
+import { useMovePagesModal } from "@/hooks/useMovePagesModal";
+import { useRouter } from "next/navigation";
+import { useSearch } from "@/hooks/useSearch";
+import { useSettings } from "@/hooks/useSettingsModal";
+
+type NavDrawerProps = {
+  resetWidth: () => void;
+  isMobile: boolean;
+};
+
+const NavDrawer = ({ resetWidth, isMobile }: NavDrawerProps) => {
+  const router = useRouter();
+
+  const search = useSearch();
+  const settings = useSettings();
+
+  const [isEdgeHovered, setIsEdgeHovered] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  const { mutateAsync: create } = useCreateDocument();
+  const { mutateAsync: createPila } = useCreatePila();
+  const movePagesModal = useMovePagesModal();
+
+  const { isInnerPopoverOpen, setInnerPopoverOpen } = useNavDrawer();
+  const open = isEdgeHovered || isDrawerOpen || isInnerPopoverOpen;
+
+  const handleCreate = () => {
+    const promise = create({ title: "Sin título" }).then((doc) =>
+      router.push(`/documents/${doc.id}`),
+    );
+
+    toast.promise(promise, {
+      loading: "Creando una nota nueva....",
+      success: "Nota creada.",
+      error: "No se pudo crear la nota.",
+    });
+  };
+
+  const handleCreatePila = () => {
+    const promise = createPila({ title: "Nueva pila pública" }).then((doc) => {
+      router.push(`/documents/${doc.id}`);
+      movePagesModal.onOpen(doc.id);
+    });
+
+    toast.promise(promise, {
+      loading: "Creando pila pública...",
+      success: "Pila creada.",
+      error: "No se pudo crear la pila.",
+    });
+  };
+
+  return (
+    <div>
+      <Popover open={open}>
+        <PopoverTrigger asChild>
+          <span
+            onMouseEnter={() => setIsEdgeHovered(true)}
+            onMouseLeave={() => setTimeout(() => setIsEdgeHovered(false), 500)}
+            className="absolute top-0 left-0 z-200 h-full w-3.5"
+          ></span>
+        </PopoverTrigger>
+        <PopoverContent
+          side="right"
+          align="center"
+          sideOffset={-24}
+          className="bg-secondary w-75 rounded-tl-none rounded-bl-none border border-gray-300 pt-2 pr-0 pb-3 pl-2"
+          onMouseEnter={() => setIsDrawerOpen(true)}
+          onMouseLeave={() => setIsDrawerOpen(false)}
+        >
+          <div className="relative flex items-center justify-between gap-4 px-2">
+            <UserItem navDrawer />
+            <ActionTooltip label="Fijar la barra lateral abierta (Ctrl + \)">
+              <div
+                onClick={resetWidth}
+                role="button"
+                aria-label="Abrir la barra lateral completa"
+                className={cn(
+                  "text-muted-foreground h-6 w-6 rounded-sm transition hover:bg-neutral-300 dark:hover:bg-neutral-600",
+                )}
+              >
+                <ChevronsRight className="h-6 w-6" />
+              </div>
+            </ActionTooltip>
+          </div>
+          <div className="flex items-center justify-between gap-2 px-2 pb-2">
+            <div className="flex items-center justify-center">
+              <Item
+                label="Buscar"
+                icon={Search}
+                onClick={search.onOpen}
+                navDrawer
+              />
+              <Item
+                label="Nueva página"
+                icon={PlusCircle}
+                onClick={handleCreate}
+                navDrawer
+              />
+            </div>
+            <ActionTooltip label="Ajustes">
+              <div className="justify-end">
+                <Item icon={Settings} onClick={settings.onOpen} navDrawer />
+              </div>
+            </ActionTooltip>
+          </div>
+          <div className="max-h-[65vh] overflow-y-auto pb-3">
+            <FavoritesList navDrawer />
+            <RootDocumentList navDrawer />
+            <Item onClick={handleCreate} icon={Plus} label="Añadir página" />
+            <Item
+              onClick={handleCreatePila}
+              icon={Globe}
+              label="Crear pila pública"
+            />
+            <Popover onOpenChange={setInnerPopoverOpen}>
+              <PopoverTrigger className="mt-3 w-full">
+                <Item label="Papelera" icon={Trash} />
+              </PopoverTrigger>
+              <PopoverContent
+                side={isMobile ? "bottom" : "right"}
+                className="w-72 p-0"
+                collisionPadding={16}
+              >
+                <TrashBox />
+              </PopoverContent>
+            </Popover>
+          </div>
+        </PopoverContent>
+      </Popover>
+    </div>
+  );
+};
+export default NavDrawer;

@@ -1,0 +1,141 @@
+"use client";
+
+import type { Document } from "@/types/document";
+
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+} from "@/components/ui/popover";
+import { useOrigin } from "@/hooks/useOrigin";
+import { useUpdateDocument } from "@/hooks/useDocumentMutations";
+import { useState } from "react";
+import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
+import { Check, Copy, Divide, Globe } from "lucide-react";
+
+interface PublishProps {
+  initialData: Document;
+}
+
+export const Publish = ({ initialData }: PublishProps) => {
+  const origin = useOrigin();
+  const { mutateAsync: update } = useUpdateDocument();
+
+  const [copied, setCopied] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const url = `${origin}/preview/${initialData.id}`;
+
+  const onPublish = () => {
+    setIsSubmitting(true);
+
+    const promise = update({
+      id: initialData.id,
+      is_published: true,
+    }).finally(() => setIsSubmitting(false));
+
+    toast.promise(promise, {
+      loading: "Publicando...",
+      success: "¡Nota publicada!",
+      error: "No se pudo publicar la nota.",
+    });
+  };
+
+  const onUnpublish = () => {
+    setIsSubmitting(true);
+
+    const promise = update({
+      id: initialData.id,
+      is_published: false,
+    }).finally(() => setIsSubmitting(false));
+
+    toast.promise(promise, {
+      loading: "Despublicando...",
+      success: "Nota despublicada",
+      error: "No se pudo despublicar la nota.",
+    });
+  };
+
+  const onCopy = () => {
+    navigator.clipboard.writeText(url);
+    setCopied(true);
+
+    setTimeout(() => {
+      setCopied(false);
+    }, 1000);
+  };
+
+  return (
+    <Popover>
+      <PopoverTrigger asChild>
+        <Button
+          size="sm"
+          variant="ghost"
+          aria-label={initialData.is_published ? "Publicado" : "Publicar"}
+          title={initialData.is_published ? "Publicado" : ""}
+        >
+          {initialData.is_published ? (
+            <Globe className="h-4 w-4 text-sky-500" />
+          ) : (
+            <span className="text-sm">Publicar</span>
+          )}
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-72" align="end" alignOffset={8} forceMount>
+        {initialData.is_published ? (
+          <div className="space-y-4">
+            <div className="flex items-center gap-x-2">
+              <Globe className="h-4 w-4 animate-pulse text-sky-500" />
+              <p className="text-xs font-medium text-sky-500">
+                Esta nota está publicada en la web.
+              </p>
+            </div>
+            <div className="flex items-center">
+              <input
+                value={url}
+                className="bg-muted h-8 flex-1 rounded-l-md border px-2 text-xs"
+                disabled
+              />
+              <Button
+                onClick={onCopy}
+                disabled={copied}
+                className="h-8 rounded-l-none"
+              >
+                {copied ? (
+                  <Check className="h-4 w-4" />
+                ) : (
+                  <Copy className="h-4 w-4" />
+                )}
+              </Button>
+            </div>
+            <Button
+              size="sm"
+              className="w-full text-xs"
+              disabled={isSubmitting}
+              onClick={onUnpublish}
+            >
+              Despublicar
+            </Button>
+          </div>
+        ) : (
+          <div className="flex flex-col items-center justify-center">
+            <Globe className="text-muted-foreground mb-2 h-8 w-8" />
+            <p>Publica esta nota</p>
+            <span className="text-muted-foreground mb-4 text-xs">
+              Comparte tu trabajo con otras personas
+            </span>
+            <Button
+              disabled={isSubmitting}
+              onClick={onPublish}
+              className="w-full text-xs"
+              size="sm"
+            >
+              Publicar
+            </Button>
+          </div>
+        )}
+      </PopoverContent>
+    </Popover>
+  );
+};
