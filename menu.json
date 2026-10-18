@@ -1,0 +1,77 @@
+[
+  {
+    "id": "m1",
+    "nombre": "Inicio",
+    "url": "/",
+    "orden": 1,
+    "activo": true
+  },
+  {
+    "id": "m2",
+    "nombre": "Tickets",
+    "url": "/tickets",
+    "orden": 2,
+    "activo": true
+  },
+  {
+    "id": "m3",
+    "nombre": "Speakers",
+    "url": "/speakers",
+    "orden": 3,
+    "activo": true
+  },
+  {
+    "id": "m4",
+    "nombre": "Lines & Stops",
+    "url": "/lines-stops",
+    "orden": 4,
+    "activo": true
+  },
+  {
+    "id": "m5",
+    "nombre": "Ver todas",
+    "url": "/experiences",
+    "orden": 5,
+    "activo": true,
+    "grupo": "Experiencias"
+  },
+  {
+    "id": "m6",
+    "nombre": "Roadshow 2027",
+    "url": "/talks",
+    "orden": 5.5,
+    "activo": true,
+    "grupo": "Experiencias"
+  },
+  {
+    "id": "m8",
+    "nombre": "Sponsors",
+    "url": "/sponsors",
+    "orden": 7,
+    "activo": true
+  },
+  {
+    "id": "m13",
+    "nombre": "Press",
+    "url": "/press",
+    "orden": 7.5,
+    "activo": true,
+    "grupo": "+ Info"
+  },
+  {
+    "id": "m10",
+    "nombre": "Contacto",
+    "url": "/contacto",
+    "orden": 8,
+    "activo": true,
+    "grupo": "+ Info"
+  },
+  {
+    "id": "m14",
+    "nombre": "Preguntas frecuentes",
+    "url": "/preguntas-frecuentes",
+    "orden": 8.5,
+    "activo": true,
+    "grupo": "+ Info"
+  }
+]

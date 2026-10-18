@@ -1,0 +1,22 @@
+[
+  {
+    "nombre": "Patrocinador Principal",
+    "tipo": "Principal",
+    "importe": 0,
+    "web": "",
+    "contacto": "",
+    "url_logo": "",
+    "altura_logo": 60,
+    "orden": 1
+  },
+  {
+    "nombre": "Patrocinador Promotor",
+    "tipo": "Promotor",
+    "importe": 0,
+    "web": "",
+    "contacto": "",
+    "url_logo": "",
+    "altura_logo": 60,
+    "orden": 2
+  }
+]

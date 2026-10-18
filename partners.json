@@ -1,0 +1,26 @@
+[
+  {
+    "id": "pt1",
+    "name": "The Officer",
+    "category": "Media",
+    "logo": "",
+    "url": "https://theofficer.es",
+    "order": 1
+  },
+  {
+    "id": "pt2",
+    "name": "Marketing 4 Ecommerce",
+    "category": "Media",
+    "logo": "",
+    "url": "https://marketing4ecommerce.net",
+    "order": 2
+  },
+  {
+    "id": "pt3",
+    "name": "Xataka",
+    "category": "Media",
+    "logo": "",
+    "url": "https://xataka.com",
+    "order": 3
+  }
+]

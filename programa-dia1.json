@@ -1,0 +1,5 @@
+[
+  {"id":"p1d1","titulo":"Ponencia — La empresa agéntica","hora":"10:30","detalle":"20 minutos × 3 ponentes","tipo":"ponencia","orden":1},
+  {"id":"p2d1","titulo":"Ponencia — La empresa autónoma","hora":"12:30","detalle":"20 minutos × 3 ponentes","tipo":"ponencia","orden":2},
+  {"id":"p3d1","titulo":"Conferencia marco","hora":"17:00","detalle":"Ponente estrella · Escenario Sol","tipo":"conferencia","orden":3}
+]
