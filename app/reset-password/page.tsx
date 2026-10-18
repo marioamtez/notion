@@ -79,7 +79,7 @@ const ResetPasswordPage = () => {
           src="/logo-mbrand.svg"
           alt="Mbrand"
           width={180}
-          height={42}
+          height={38}
           priority
         />
         <p className="text-sm text-[#9aa0ac]">Nueva contraseña</p>
